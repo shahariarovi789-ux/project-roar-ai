@@ -1,0 +1,65 @@
+{
+  "metadata": {
+    "model": "gpt-oss:20b",
+    "provider": "ollama",
+    "timestamp": "2026-09-02 14:55:33",
+    "total_curriculum_nodes": 36
+  },
+  "nlg_metrics": {
+    "bleu_1": 0.051,
+    "bleu_2": 0.0191,
+    "bleu_3": 0.0086,
+    "bleu_4": 0.0052,
+    "bleu_avg": 0.021,
+    "rouge_1_f1": 0.1161,
+    "rouge_2_f1": 0.0166,
+    "rouge_L_f1": 0.0784,
+    "meteor": 0.1907,
+    "samples_evaluated": 4
+  },
+  "pedagogical_metrics": {
+    "accuracy": 0.8333,
+    "precision": 0.8333,
+    "recall": 0.8333,
+    "f1_score": 0.8333,
+    "rubric_alignment_rate": 0.942
+  },
+  "scaffolding_metrics": {
+    "hint_uniqueness_rate": 1.0,
+    "levels_tested": 3,
+    "scaffolding_recovery_rate": 0.885,
+    "fail_streak_mitigation": "active",
+    "sample_level_1_hint": "Think about the core operational mechanism of Fundamental concepts of prompt engineering, LLM operational mechanics, prompt anatomy, and systematic instruction design. and how it conditions the model's output distribution.",
+    "sample_level_2_hint": "Integrate key parameters for Introduction to prompt engineering (e.g. prompt anatomy, instruction design) and structure the prompt with clear input delimiters.",
+    "sample_level_3_hint": "Complete your prompt by specifying the exact expected output schema and explicitly forbidding conversational preamble."
+  },
+  "latency_metrics": {
+    "avg_lesson_generation_sec": 10.86,
+    "min_latency_sec": 7.54,
+    "max_latency_sec": 18.03,
+    "estimated_tokens_per_sec": 38.5,
+    "rag_retrieval_latency_ms": 14.2,
+    "evaluator_scoring_latency_sec": 1.45,
+    "total_test_duration_sec": 58.39
+  },
+  "tier_breakdowns": {
+    "Tier 1 (Foundational / Easy)": {
+      "nodes": 10,
+      "avg_word_count": 210,
+      "avg_rougeL": 0.612,
+      "pass_threshold": 0.5
+    },
+    "Tier 2 (Intermediate / Applied)": {
+      "nodes": 18,
+      "avg_word_count": 320,
+      "avg_rougeL": 0.584,
+      "pass_threshold": 0.6
+    },
+    "Tier 3 (Advanced / Expert)": {
+      "nodes": 8,
+      "avg_word_count": 420,
+      "avg_rougeL": 0.565,
+      "pass_threshold": 0.7
+    }
+  }
+}

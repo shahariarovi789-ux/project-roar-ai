@@ -1,0 +1,25 @@
+# Python virtual environment
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Testing and Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment Variables (Keep .env.example tracked)
+.env
+!.env.example
+
+# Temporary files
+*.tmp
+*.log

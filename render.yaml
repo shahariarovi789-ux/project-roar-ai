@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: prompt-tutor-ai
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ENV
+        value: production
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: LLM_BACKEND
+        value: ollama
+      - key: OLLAMA_HOST
+        value: https://api.ollama.com
+      - key: OLLAMA_API_KEY
+        sync: false
+      - key: OLLAMA_DEFAULT_MODEL
+        value: gpt-oss:20b
+      - key: DB_PATH
+        value: ./data/db/tutor.db
+      - key: CHROMA_PATH
+        value: ./data/db/chroma
+      - key: RAG_DOCS_PATH
+        value: ./data/rag_docs

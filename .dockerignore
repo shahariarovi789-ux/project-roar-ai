@@ -1,0 +1,11 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.log
+.git/
+.gitignore
+.pytest_cache/
+.DS_Store
+*.md
+evaluation/plots/

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project ROAR — Adaptive Multi-Agent AI Prompt Engineering Tutor</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="/static/css/app.css?v=5.0">
+  <style>
+    /* Fixed top luminous accent bar */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #FDE047 0%, #F59E0B 50%, #D97706 100%);
+      box-shadow: 0 0 10px rgba(251, 191, 36, 0.6);
+      z-index: 10000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" style="position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none;"></div>
+
+  <!-- App Shell -->
+  <div id="app-root">
+
+    <!-- Sidebar -->
+    <aside id="sidebar-container">
+
+      <!-- Brand -->
+      <div class="sb-brand">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="sb-logo-mark">
+            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+              <path d="M8 1 L15 8 L8 15 L1 8 Z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="sb-name">Project ROAR</div>
+            <div class="sb-sub">Adaptive AI Tutor</div>
+          </div>
+        </div>
+        <button id="btn-settings-toggle" class="hdr-btn" style="border:none;padding:6px;background:transparent;" title="Settings">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:15px;height:15px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        </button>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="sb-tabs">
+        <button id="nav-btn-learn" class="sb-tab active">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          Study
+        </button>
+        <button id="nav-btn-progress" class="sb-tab">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          Progress
+        </button>
+        <button id="nav-btn-exam" class="sb-tab">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Exam
+        </button>
+      </div>
+
+      <!-- Curriculum List -->
+      <div id="sidebar-curriculum-list">
+        <div style="padding:24px 16px;color:var(--c-text-3);font-family:var(--font-mono);font-size:11.5px;">Loading curriculum nodes…</div>
+      </div>
+
+      <!-- Sidebar Footer -->
+      <div class="sb-footer">
+        <div class="sb-model-row">
+          <div class="sb-model-badge" id="sidebar-model-container">
+            <div class="sb-dot-live">
+              <span></span>
+              <span></span>
+            </div>
+            <span class="sb-model-name" id="sidebar-model-tag">connecting…</span>
+          </div>
+          <span class="sb-progress-chip" id="sidebar-progress-badge">0/36</span>
+        </div>
+        <div class="sb-user-row">
+          <span class="sb-username" id="sidebar-username">Student</span>
+          <button class="sb-logout" id="btn-logout">Sign out</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main>
+
+      <!-- App Header -->
+      <header id="app-header">
+        <div class="hdr-left">
+          <span class="hdr-breadcrumb" id="header-node-title">–</span>
+          <span class="hdr-tier-chip" id="header-tier-badge">Tier 1</span>
+        </div>
+        <div class="hdr-right">
+          <button id="btn-header-provider-badge" class="hdr-btn" title="Switch inference provider">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:13px;height:13px;"><circle cx="12" cy="12" r="3" stroke-width="2"/><path stroke-width="2" stroke-linecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+            <span id="header-provider-text">Ollama</span>
+          </button>
+          <button id="btn-toggle-activity-feed" class="hdr-btn accent">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:13px;height:13px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Agents
+          </button>
+          <div class="hdr-phase" id="header-phase-badge">LESSON</div>
+        </div>
+      </header>
+
+      <!-- Activity Drawer -->
+      <div id="activity-drawer" style="display:none;">
+        <div class="drawer-header">
+          <span class="drawer-title">⚡ Live Agent Telemetry</span>
+          <button id="btn-close-activity-drawer" class="drawer-close">Close</button>
+        </div>
+        <div id="activity-events-list">
+          <div style="color:var(--c-text-3);font-family:var(--font-mono);font-size:11px;padding:4px 0;">Waiting for activity…</div>
+        </div>
+      </div>
+
+      <!-- View Container -->
+      <div id="view-container"></div>
+    </main>
+
+  </div>
+
+  <script type="module" src="/static/js/app.js"></script>
+</body>
+</html>

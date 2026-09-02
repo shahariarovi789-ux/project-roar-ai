@@ -1,0 +1,658 @@
+{
+  "curriculum_version": "2.0",
+  "difficulty_scale": {
+    "1": {"tier": "Foundational / Easy", "weight_range": "1.0 - 1.5", "bloom_level": "Remember / Understand", "passing_score": 0.50},
+    "2": {"tier": "Intermediate / Applied", "weight_range": "1.8 - 2.8", "bloom_level": "Apply / Analyze", "passing_score": 0.60},
+    "3": {"tier": "Advanced / Expert", "weight_range": "3.0 - 4.0", "bloom_level": "Evaluate / Create", "passing_score": 0.70}
+  },
+  "nodes": [
+    {
+      "id": "node_01",
+      "title": "Introduction to prompt engineering",
+      "path": "Foundations / Introduction to prompt engineering",
+      "category": "Foundations",
+      "depth": 0,
+      "difficulty_tier": 1,
+      "weight": 1.0,
+      "bloom_level": "Understand",
+      "quiz_type": "mcq_definition",
+      "prerequisites": [],
+      "description": "Fundamental concepts of prompt engineering, LLM operational mechanics, prompt anatomy, and systematic instruction design.",
+      "rubric": {
+        "key_concepts": ["prompt anatomy", "instruction design", "llm mechanics", "context setting", "task definition"],
+        "min_length_words": 15,
+        "structural_markers": ["prompt", "llm", "instruction", "guide", "systematic"]
+      }
+    },
+    {
+      "id": "node_03",
+      "title": "Output length",
+      "path": "LLM output configuration / Output length",
+      "category": "Output Configuration",
+      "depth": 1,
+      "difficulty_tier": 1,
+      "weight": 1.2,
+      "bloom_level": "Understand",
+      "quiz_type": "mcq_definition",
+      "prerequisites": ["node_01"],
+      "description": "Token limits, max_tokens, and preventing premature text truncation.",
+      "rubric": {
+        "key_concepts": ["max_tokens", "context window", "truncation", "token budget"],
+        "min_length_words": 15,
+        "structural_markers": ["tokens", "limit", "length", "cutoff"]
+      }
+    },
+    {
+      "id": "node_04",
+      "title": "Temperature",
+      "path": "LLM output configuration / Sampling controls / Temperature",
+      "category": "Output Configuration",
+      "depth": 2,
+      "difficulty_tier": 1,
+      "weight": 1.5,
+      "bloom_level": "Apply",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_03"],
+      "description": "Softmax scaling, entropy control, determinism vs creativity in sampling.",
+      "rubric": {
+        "key_concepts": ["temperature", "randomness", "determinism", "creative", "factual"],
+        "min_length_words": 20,
+        "structural_markers": ["temperature", "0.", "deterministic", "sampling", "predictable"]
+      }
+    },
+    {
+      "id": "node_05",
+      "title": "Top-K and top-P",
+      "path": "LLM output configuration / Sampling controls / Top-K and top-P",
+      "category": "Output Configuration",
+      "depth": 2,
+      "difficulty_tier": 2,
+      "weight": 2.0,
+      "bloom_level": "Analyze",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_04"],
+      "description": "Nucleus (top-p) sampling, vocabulary truncation (top-k), and cumulative probability filtering.",
+      "rubric": {
+        "key_concepts": ["top-p", "top-k", "nucleus sampling", "cumulative probability", "token pool"],
+        "min_length_words": 25,
+        "structural_markers": ["top-p", "top-k", "probability", "threshold", "tokens"]
+      }
+    },
+    {
+      "id": "node_06",
+      "title": "Putting it all together",
+      "path": "LLM output configuration / Putting it all together",
+      "category": "Output Configuration",
+      "depth": 1,
+      "difficulty_tier": 2,
+      "weight": 2.2,
+      "bloom_level": "Apply",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_04", "node_05"],
+      "description": "Joint configuration of temperature, top-p, and penalty parameters for specific domain tasks.",
+      "rubric": {
+        "key_concepts": ["parameter synergy", "repetition penalty", "creative vs strict", "domain configuration"],
+        "min_length_words": 30,
+        "structural_markers": ["temperature", "top-p", "max tokens", "penalty", "format"]
+      }
+    },
+    {
+      "id": "node_07",
+      "title": "General prompting / zero shot",
+      "path": "Prompting techniques / General prompting / zero shot",
+      "category": "Prompting Techniques",
+      "depth": 1,
+      "difficulty_tier": 1,
+      "weight": 1.2,
+      "bloom_level": "Apply",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_01"],
+      "description": "Formulating direct, zero-shot instructions without explicit task demonstrations.",
+      "rubric": {
+        "key_concepts": ["direct task", "action verb", "no examples", "clear scope"],
+        "min_length_words": 20,
+        "structural_markers": ["write", "explain", "summarize", "list", "generate", "analyze"]
+      }
+    },
+    {
+      "id": "node_08",
+      "title": "One-shot & few-shot",
+      "path": "Prompting techniques / One-shot & few-shot",
+      "category": "Prompting Techniques",
+      "depth": 1,
+      "difficulty_tier": 2,
+      "weight": 2.0,
+      "bloom_level": "Apply",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_07"],
+      "description": "In-context learning using exemplar input-output demonstrations to steer pattern recognition.",
+      "rubric": {
+        "key_concepts": ["in-context demonstration", "input format", "output format", "exemplar pattern"],
+        "min_length_words": 35,
+        "structural_markers": ["input:", "output:", "example:", "sample:", "q:", "a:"]
+      }
+    },
+    {
+      "id": "node_09",
+      "title": "System prompting",
+      "path": "Prompting techniques / System, contextual and role prompting / System prompting",
+      "category": "Prompting Techniques",
+      "depth": 2,
+      "difficulty_tier": 2,
+      "weight": 2.0,
+      "bloom_level": "Apply",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_07"],
+      "description": "Establishing meta-instructions, persistent behavioral guardrails, and environment constraints.",
+      "rubric": {
+        "key_concepts": ["system instruction", "behavioral bounds", "guardrails", "tone guidelines"],
+        "min_length_words": 30,
+        "structural_markers": ["you are", "always", "never", "must adhere", "rules:", "guidelines:"]
+      }
+    },
+    {
+      "id": "node_10",
+      "title": "Role prompting",
+      "path": "Prompting techniques / System, contextual and role prompting / Role prompting",
+      "category": "Prompting Techniques",
+      "depth": 2,
+      "difficulty_tier": 2,
+      "weight": 1.8,
+      "bloom_level": "Apply",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_07"],
+      "description": "Assigning persona, domain expertise, and tone (e.g. 'Act as a Senior Research Chemist').",
+      "rubric": {
+        "key_concepts": ["persona", "domain expert", "tone", "perspective"],
+        "min_length_words": 25,
+        "structural_markers": ["act as", "you are a", "as an expert", "role:", "senior"]
+      }
+    },
+    {
+      "id": "node_11",
+      "title": "Contextual prompting",
+      "path": "Prompting techniques / System, contextual and role prompting / Contextual prompting",
+      "category": "Prompting Techniques",
+      "depth": 2,
+      "difficulty_tier": 2,
+      "weight": 2.2,
+      "bloom_level": "Apply",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_09", "node_10"],
+      "description": "Grounding prompts with dynamic retrieved background facts, user profile state, and domain context.",
+      "rubric": {
+        "key_concepts": ["context grounding", "background facts", "domain constraints", "reference data"],
+        "min_length_words": 30,
+        "structural_markers": ["context:", "given the following", "background:", "based on:", "data:"]
+      }
+    },
+    {
+      "id": "node_12",
+      "title": "Step-back prompting",
+      "path": "Prompting techniques / Step-back prompting",
+      "category": "Prompting Techniques",
+      "depth": 1,
+      "difficulty_tier": 2,
+      "weight": 2.5,
+      "bloom_level": "Analyze",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_07"],
+      "description": "Prompting the model to abstract first principles and higher-level concepts before solving a specific instance.",
+      "rubric": {
+        "key_concepts": ["first principles", "abstraction", "higher-level concept", "step-back query"],
+        "min_length_words": 30,
+        "structural_markers": ["first principles", "underlying concept", "step back", "fundamental", "general rule"]
+      }
+    },
+    {
+      "id": "node_13",
+      "title": "Chain of Thought (CoT)",
+      "path": "Prompting techniques / Chain of Thought (CoT)",
+      "category": "Prompting Techniques",
+      "depth": 1,
+      "difficulty_tier": 2,
+      "weight": 2.8,
+      "bloom_level": "Analyze",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_08"],
+      "description": "Eliciting explicit intermediate reasoning steps ('Let\\'s think step by step') for complex deductive tasks.",
+      "rubric": {
+        "key_concepts": ["intermediate reasoning", "step-by-step", "deductive reasoning", "break down"],
+        "min_length_words": 35,
+        "structural_markers": ["step by step", "reasoning", "first,", "second,", "therefore", "calculate"]
+      }
+    },
+    {
+      "id": "node_14",
+      "title": "Self-consistency",
+      "path": "Prompting techniques / Self-consistency",
+      "category": "Prompting Techniques",
+      "depth": 1,
+      "difficulty_tier": 3,
+      "weight": 3.2,
+      "bloom_level": "Evaluate",
+      "quiz_type": "construction_critique",
+      "prerequisites": ["node_13"],
+      "description": "Sampling diverse reasoning paths via stochastic decoding and aggregating via majority vote / consensus.",
+      "rubric": {
+        "key_concepts": ["multiple paths", "majority voting", "stochastic sampling", "consensus", "temperature tuning"],
+        "min_length_words": 40,
+        "structural_markers": ["sample multiple", "majority vote", "reasoning paths", "consensus", "compare answers"]
+      }
+    },
+    {
+      "id": "node_15",
+      "title": "Tree of Thoughts (ToT)",
+      "path": "Prompting techniques / Tree of Thoughts (ToT)",
+      "category": "Prompting Techniques",
+      "depth": 1,
+      "difficulty_tier": 3,
+      "weight": 3.8,
+      "bloom_level": "Evaluate",
+      "quiz_type": "construction_critique",
+      "prerequisites": ["node_13"],
+      "description": "Branching exploration over units of thought with heuristic self-evaluation, backtracking, and search (BFS/DFS).",
+      "rubric": {
+        "key_concepts": ["thought branching", "heuristic evaluation", "backtracking", "search state", "pruning"],
+        "min_length_words": 45,
+        "structural_markers": ["branch", "evaluate options", "backtrack", "rate each path", "depth-first", "breadth-first"]
+      }
+    },
+    {
+      "id": "node_16",
+      "title": "ReAct (reason & act)",
+      "path": "Prompting techniques / ReAct (reason & act)",
+      "category": "Prompting Techniques",
+      "depth": 1,
+      "difficulty_tier": 3,
+      "weight": 4.0,
+      "bloom_level": "Create",
+      "quiz_type": "construction_critique",
+      "prerequisites": ["node_13"],
+      "description": "Synergizing reasoning traces with external tool action invocation and environmental observation loops.",
+      "rubric": {
+        "key_concepts": ["thought", "action", "observation", "tool execution", "external feedback"],
+        "min_length_words": 50,
+        "structural_markers": ["thought:", "action:", "action input:", "observation:", "final answer:"]
+      }
+    },
+    {
+      "id": "node_17",
+      "title": "Automatic Prompt Engineering",
+      "path": "Prompting techniques / Automatic Prompt Engineering",
+      "category": "Prompting Techniques",
+      "depth": 1,
+      "difficulty_tier": 3,
+      "weight": 3.5,
+      "bloom_level": "Create",
+      "quiz_type": "construction_critique",
+      "prerequisites": ["node_08", "node_13"],
+      "description": "Meta-prompting and evolutionary optimization where LLMs generate, score, and refine candidate prompt instructions.",
+      "rubric": {
+        "key_concepts": ["meta-prompt", "candidate generation", "evaluator feedback", "iterative refinement"],
+        "min_length_words": 45,
+        "structural_markers": ["meta-prompt", "generate variations", "score each prompt", "refine instruction", "optimize"]
+      }
+    },
+    {
+      "id": "node_18",
+      "title": "Prompts for writing code",
+      "path": "Prompting techniques / Code prompting / Prompts for writing code",
+      "category": "Code Prompting",
+      "depth": 2,
+      "difficulty_tier": 2,
+      "weight": 2.4,
+      "bloom_level": "Apply",
+      "quiz_type": "code_prompt",
+      "prerequisites": ["node_07"],
+      "description": "Specifying function signatures, docstrings, typing, computational complexity, and clean code criteria.",
+      "rubric": {
+        "key_concepts": ["function signature", "type annotations", "docstring", "edge cases", "complexity"],
+        "min_length_words": 35,
+        "structural_markers": ["def ", "return", "type hints", "docstring", "parameters:", "complexity:"]
+      }
+    },
+    {
+      "id": "node_19",
+      "title": "Prompts for explaining code",
+      "path": "Prompting techniques / Code prompting / Prompts for explaining code",
+      "category": "Code Prompting",
+      "depth": 2,
+      "difficulty_tier": 2,
+      "weight": 2.2,
+      "bloom_level": "Understand",
+      "quiz_type": "code_prompt",
+      "prerequisites": ["node_07"],
+      "description": "Structuring prompts for line-by-line breakdown, algorithm complexity analysis, and educational code walkthroughs.",
+      "rubric": {
+        "key_concepts": ["line-by-line breakdown", "time complexity", "space complexity", "data structures"],
+        "min_length_words": 30,
+        "structural_markers": ["explain", "step-by-step", "time complexity", "space complexity", "big-o", "lines"]
+      }
+    },
+    {
+      "id": "node_20",
+      "title": "Prompts for translating code",
+      "path": "Prompting techniques / Code prompting / Prompts for translating code",
+      "category": "Code Prompting",
+      "depth": 2,
+      "difficulty_tier": 2,
+      "weight": 2.5,
+      "bloom_level": "Apply",
+      "quiz_type": "code_prompt",
+      "prerequisites": ["node_18"],
+      "description": "Cross-language code translation with idiom preservation, framework mapping, and dependency equivalence.",
+      "rubric": {
+        "key_concepts": ["source language", "target language", "idiomatic translation", "library equivalent"],
+        "min_length_words": 35,
+        "structural_markers": ["translate from", "to", "idiomatic", "equivalent library", "preserve functionality"]
+      }
+    },
+    {
+      "id": "node_21",
+      "title": "Prompts for debugging and reviewing code",
+      "path": "Prompting techniques / Code prompting / Prompts for debugging and reviewing code",
+      "category": "Code Prompting",
+      "depth": 2,
+      "difficulty_tier": 3,
+      "weight": 3.2,
+      "bloom_level": "Analyze",
+      "quiz_type": "code_prompt",
+      "prerequisites": ["node_18"],
+      "description": "Fault localization, edge-case vulnerability auditing, memory leak detection, and refactoring prompts.",
+      "rubric": {
+        "key_concepts": ["bug diagnosis", "edge case audit", "security flaw", "fixed implementation", "root cause"],
+        "min_length_words": 40,
+        "structural_markers": ["review", "debug", "vulnerability", "root cause", "edge case", "corrected code"]
+      }
+    },
+    {
+      "id": "node_22",
+      "title": "What about multimodal prompting?",
+      "path": "Prompting techniques / What about multimodal prompting?",
+      "category": "Prompting Techniques",
+      "depth": 1,
+      "difficulty_tier": 3,
+      "weight": 3.4,
+      "bloom_level": "Apply",
+      "quiz_type": "scenario_analysis",
+      "prerequisites": ["node_07", "node_11"],
+      "description": "Interleaving image/audio visual tokens with structured text prompts, spatial bounding-box prompts, and visual reasoning.",
+      "rubric": {
+        "key_concepts": ["visual context", "spatial reasoning", "interleaved tokens", "image description", "bounding box"],
+        "min_length_words": 40,
+        "structural_markers": ["image", "visual", "coordinates", "chart", "diagram", "interleaved"]
+      }
+    },
+    {
+      "id": "node_23",
+      "title": "Provide examples",
+      "path": "Best Practices / Provide examples",
+      "category": "Best Practices",
+      "depth": 1,
+      "difficulty_tier": 1,
+      "weight": 1.4,
+      "bloom_level": "Understand",
+      "quiz_type": "scenario_analysis",
+      "prerequisites": ["node_08"],
+      "description": "Heuristics for choosing representative, non-ambiguous few-shot exemplars.",
+      "rubric": {
+        "key_concepts": ["representative examples", "diversity", "unambiguous labels", "edge cases"],
+        "min_length_words": 20,
+        "structural_markers": ["example", "representative", "diversity", "edge case", "demonstration"]
+      }
+    },
+    {
+      "id": "node_24",
+      "title": "Design with simplicity",
+      "path": "Best Practices / Design with simplicity",
+      "category": "Best Practices",
+      "depth": 1,
+      "difficulty_tier": 1,
+      "weight": 1.3,
+      "bloom_level": "Apply",
+      "quiz_type": "scenario_analysis",
+      "prerequisites": ["node_07"],
+      "description": "Occam's razor in prompt design: eliminating contradictory clauses and extraneous cognitive noise.",
+      "rubric": {
+        "key_concepts": ["conciseness", "clarity", "remove fluff", "single responsibility"],
+        "min_length_words": 20,
+        "structural_markers": ["simple", "concise", "clear", "direct", "unnecessary"]
+      }
+    },
+    {
+      "id": "node_25",
+      "title": "Be specific about the output",
+      "path": "Best Practices / Be specific about the output",
+      "category": "Best Practices",
+      "depth": 1,
+      "difficulty_tier": 1,
+      "weight": 1.4,
+      "bloom_level": "Apply",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_07"],
+      "description": "Explicit constraints on tone, structure, bullet count, length, and prohibited expressions.",
+      "rubric": {
+        "key_concepts": ["format specification", "tone constraint", "length limit", "structure"],
+        "min_length_words": 25,
+        "structural_markers": ["format as", "exact", "bullets", "tone:", "limit to", "must include"]
+      }
+    },
+    {
+      "id": "node_26",
+      "title": "Use Instructions over Constraints",
+      "path": "Best Practices / Use Instructions over Constraints",
+      "category": "Best Practices",
+      "depth": 1,
+      "difficulty_tier": 2,
+      "weight": 2.0,
+      "bloom_level": "Analyze",
+      "quiz_type": "scenario_analysis",
+      "prerequisites": ["node_25"],
+      "description": "Positive affirmative guidance ('do X') vs negative prohibition ('don\\'t do Y') due to autoregressive attention dynamics.",
+      "rubric": {
+        "key_concepts": ["positive phrasing", "affirmative instruction", "avoid negative tokens", "attention steering"],
+        "min_length_words": 25,
+        "structural_markers": ["affirmative", "positive instruction", "do instead of don't", "focus on", "specify what to do"]
+      }
+    },
+    {
+      "id": "node_27",
+      "title": "Control the max token length",
+      "path": "Best Practices / Control the max token length",
+      "category": "Best Practices",
+      "depth": 1,
+      "difficulty_tier": 1,
+      "weight": 1.5,
+      "bloom_level": "Apply",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_03"],
+      "description": "Budgeting prompt context windows vs output completion tokens to avoid attention degradation.",
+      "rubric": {
+        "key_concepts": ["token budgeting", "context management", "succinctness", "truncation prevention"],
+        "min_length_words": 20,
+        "structural_markers": ["token limit", "within 100 tokens", "budget", "concise response", "max_tokens"]
+      }
+    },
+    {
+      "id": "node_28",
+      "title": "Use variables in prompts",
+      "path": "Best Practices / Use variables in prompts",
+      "category": "Best Practices",
+      "depth": 1,
+      "difficulty_tier": 2,
+      "weight": 2.2,
+      "bloom_level": "Apply",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_07"],
+      "description": "Template modularity, placeholder delimiters (e.g. {{user_query}}, xml tags <input>), and prompt sanitization.",
+      "rubric": {
+        "key_concepts": ["template variable", "delimiters", "placeholder", "injection defense"],
+        "min_length_words": 30,
+        "structural_markers": ["{{", "}}", "{input}", "<user_query>", "<context>", "variable:"]
+      }
+    },
+    {
+      "id": "node_29",
+      "title": "Experiment with input formats and writing styles",
+      "path": "Best Practices / Experiment with input formats and writing styles",
+      "category": "Best Practices",
+      "depth": 1,
+      "difficulty_tier": 2,
+      "weight": 2.0,
+      "bloom_level": "Analyze",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_28"],
+      "description": "Testing Markdown, YAML, JSON, and XML tag encapsulations for optimal in-context comprehension.",
+      "rubric": {
+        "key_concepts": ["markdown headers", "xml tags", "yaml blocks", "json schema", "structured data"],
+        "min_length_words": 30,
+        "structural_markers": ["###", "<tag>", "```json", "yaml", "structured input"]
+      }
+    },
+    {
+      "id": "node_30",
+      "title": "For few-shot prompting with classification tasks, mix up the classes",
+      "path": "Best Practices / For few-shot prompting with classification tasks, mix up the classes",
+      "category": "Best Practices",
+      "depth": 1,
+      "difficulty_tier": 3,
+      "weight": 3.0,
+      "bloom_level": "Evaluate",
+      "quiz_type": "construction_critique",
+      "prerequisites": ["node_08"],
+      "description": "Mitigating recency bias, majority label bias, and order sensitivity in few-shot demonstration lists.",
+      "rubric": {
+        "key_concepts": ["recency bias", "label balance", "class permutation", "order sensitivity"],
+        "min_length_words": 40,
+        "structural_markers": ["recency bias", "shuffle classes", "balanced examples", "majority label", "order effect"]
+      }
+    },
+    {
+      "id": "node_31",
+      "title": "Adapt to model updates",
+      "path": "Best Practices / Adapt to model updates",
+      "category": "Best Practices",
+      "depth": 1,
+      "difficulty_tier": 2,
+      "weight": 2.2,
+      "bloom_level": "Evaluate",
+      "quiz_type": "scenario_analysis",
+      "prerequisites": ["node_07"],
+      "description": "Prompt regression testing, model drift management, and tuning prompt style across foundation model generations.",
+      "rubric": {
+        "key_concepts": ["model drift", "regression test suite", "evaluation harness", "version pinning"],
+        "min_length_words": 30,
+        "structural_markers": ["model update", "regression test", "prompt drift", "eval suite", "benchmark"]
+      }
+    },
+    {
+      "id": "node_32",
+      "title": "Experiment with output formats",
+      "path": "Best Practices / Experiment with output formats",
+      "category": "Best Practices",
+      "depth": 1,
+      "difficulty_tier": 2,
+      "weight": 2.0,
+      "bloom_level": "Apply",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_25"],
+      "description": "Forcing tabular, CSV, Markdown, YAML, and JSON structured payloads.",
+      "rubric": {
+        "key_concepts": ["json output", "table format", "csv format", "yaml structure", "schema adherence"],
+        "min_length_words": 25,
+        "structural_markers": ["json", "markdown table", "columns:", "csv", "format as valid"]
+      }
+    },
+    {
+      "id": "node_33",
+      "title": "JSON Repair",
+      "path": "JSON Repair",
+      "category": "Output Engineering",
+      "depth": 0,
+      "difficulty_tier": 2,
+      "weight": 2.5,
+      "bloom_level": "Analyze",
+      "quiz_type": "prompt_writing",
+      "prerequisites": ["node_32"],
+      "description": "Techniques for handling malformed JSON, dangling commas, regex extractors, and defensive schema prompting.",
+      "rubric": {
+        "key_concepts": ["json validation", "unescaped quotes", "trailing commas", "defensive parsing", "raw json only"],
+        "min_length_words": 30,
+        "structural_markers": ["valid json", "no markdown blocks", "escape quotes", "no trailing comma", "strict json"]
+      }
+    },
+    {
+      "id": "node_34",
+      "title": "Working with Schemas",
+      "path": "Working with Schemas",
+      "category": "Output Engineering",
+      "depth": 0,
+      "difficulty_tier": 3,
+      "weight": 3.2,
+      "bloom_level": "Create",
+      "quiz_type": "construction_critique",
+      "prerequisites": ["node_33"],
+      "description": "Enforcing Pydantic models, JSON Schema definitions, TypeScript types, and constrained grammar decoding.",
+      "rubric": {
+        "key_concepts": ["json schema", "pydantic", "type constraints", "required fields", "grammar constraints"],
+        "min_length_words": 40,
+        "structural_markers": ["$schema", "pydantic", "properties", "required:", "type: object", "enum"]
+      }
+    },
+    {
+      "id": "node_35",
+      "title": "Experiment together with other prompt engineers",
+      "path": "Experiment together with other prompt engineers",
+      "category": "Collaborative & Workflow",
+      "depth": 0,
+      "difficulty_tier": 1,
+      "weight": 1.2,
+      "bloom_level": "Understand",
+      "quiz_type": "scenario_analysis",
+      "prerequisites": ["node_01"],
+      "description": "Peer review in prompt engineering, collaborative benchmark suites, and collective red-teaming.",
+      "rubric": {
+        "key_concepts": ["peer review", "blind testing", "shared eval benchmarks", "red teaming"],
+        "min_length_words": 20,
+        "structural_markers": ["peer review", "collaborative", "benchmark", "red teaming", "blind evaluation"]
+      }
+    },
+    {
+      "id": "node_36",
+      "title": "CoT Best practices",
+      "path": "CoT Best practices",
+      "category": "Advanced Reasoning",
+      "depth": 0,
+      "difficulty_tier": 2,
+      "weight": 2.6,
+      "bloom_level": "Evaluate",
+      "quiz_type": "construction_critique",
+      "prerequisites": ["node_13"],
+      "description": "Mitigating hallucination accumulation in reasoning chains, zero-shot vs few-shot CoT triggers, and verification prompts.",
+      "rubric": {
+        "key_concepts": ["hallucination mitigation", "reasoning verification", "concise CoT", "sanity check step"],
+        "min_length_words": 35,
+        "structural_markers": ["verify each step", "check reasoning", "self-correction", "avoid assumptions", "factual basis"]
+      }
+    },
+    {
+      "id": "node_37",
+      "title": "Document the various prompt attempts",
+      "path": "Document the various prompt attempts",
+      "category": "Collaborative & Workflow",
+      "depth": 0,
+      "difficulty_tier": 1,
+      "weight": 1.3,
+      "bloom_level": "Apply",
+      "quiz_type": "scenario_analysis",
+      "prerequisites": ["node_01"],
+      "description": "Version control for prompts, logging prompt iteration diffs, evaluation metrics, and prompt changelogs.",
+      "rubric": {
+        "key_concepts": ["prompt versioning", "iteration changelog", "eval metrics tracking", "failure analysis"],
+        "min_length_words": 25,
+        "structural_markers": ["version", "v1.0", "changelog", "test metric", "diff", "tracking"]
+      }
+    }
+  ]
+}
