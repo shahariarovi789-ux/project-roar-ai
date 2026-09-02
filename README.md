@@ -13,31 +13,31 @@
 
 *An open-source, air-gapped, research-grade Intelligent Tutoring System (ITS) designed to eliminate scaffolding collapse and deliver personalized education in prompt engineering.*
 
-[Live Demo](https://project-roar-ai.onrender.com) • [Evaluation Report](evaluation/Project_ROAR_Evaluation_Report.pdf) • [Installation Guide](#-installation--setup-guide) • [Architecture](#-system-architecture) • [Research Benchmarks](#-empirical-evaluation--research-benchmarks)
+[Evaluation Report](evaluation/Project_ROAR_Evaluation_Report.pdf) • [Installation Guide](#installation-and-setup-guide) • [Architecture](#system-architecture) • [Research Benchmarks](#empirical-evaluation-and-research-benchmarks)
 
 </div>
 
 ---
 
-## 📸 System Interface Preview
+## 1. System Interface Preview
 
 <div align="center">
 
-### 1. Interactive Study Interface (RAG-Grounded Concept Guide & 36-Node DAG)
+### 1.1 Interactive Study Interface (RAG-Grounded Concept Guide & 36-Node DAG)
 *Dynamic prerequisite gating with Bloom taxonomy alignment, live engine telemetry, and comparative before/after prompt demonstrations.*
 
 ![Interactive Study Interface](assets/screenshots/lesson_view.png)
 
 ---
 
-### 2. Timed Assessment Sandbox (Multi-Modal Quiz & 3-Tier Scaffolding)
+### 1.2 Timed Assessment Sandbox (Multi-Modal Quiz & 3-Tier Scaffolding)
 *Authentic prompt construction sandboxes paired with on-demand Socratic hint triggers that guide learners without spoiling solutions.*
 
 ![Timed Assessment Interface](assets/screenshots/quiz_view.png)
 
 ---
 
-### 3. Automated Evaluator Feedback (Decomposed Formula & Remediation)
+### 1.3 Automated Evaluator Feedback (Decomposed Formula & Remediation)
 *Transparent multi-variable scoring model displaying semantic relevance, syntactic structure, time/streak penalties, and targeted remediation.*
 
 ![Evaluator Feedback Interface](assets/screenshots/evaluator_view.png)
@@ -46,9 +46,9 @@
 
 ---
 
-## 🌟 Key Innovations
+## 2. Key System Capabilities
 
-1. **Anti-Scaffolding Collapse (3-Tier Progressive Hints):** Generic conversational LLMs spoil direct answers, inducing passive cognitive offloading. ROAR enforces progressive cognitive scaffolding ($L1\text{ Socratic Analogy} \rightarrow L2\text{ Structural Rubric} \rightarrow L3\text{ Constrained Template}$).
+1. **Anti-Scaffolding Collapse (3-Tier Progressive Hints):** Generic conversational LLMs spoil direct answers, inducing passive cognitive offloading. Project ROAR enforces progressive cognitive scaffolding ($L1\text{ Socratic Analogy} \rightarrow L2\text{ Structural Rubric} \rightarrow L3\text{ Constrained Template}$).
 2. **36-Node Dynamic Knowledge DAG:** Replaces response uniformity with topological prerequisite skill trees calibrated across 4 Bloom taxonomy cognitive tiers.
 3. **Retrieval-Augmented Semantic Grounding:** ChromaDB vector integration reduces technical prompt syntax hallucinations by **$4.1\times$** ($1.2\%$ vs $24.8\%$).
 4. **Sub-6GB Edge Optimization:** Operates 100% offline within a strict **$4,820\text{ MB}$ peak VRAM footprint** on consumer hardware (NVIDIA RTX 3060/4060 or Apple Silicon) at zero recurring cloud API cost.
@@ -56,33 +56,33 @@
 
 ---
 
-## 🏛️ System Architecture
+## 3. System Architecture
 
 ```mermaid
 graph TD
-    subgraph Client["🖥️ Interactive User Workspace (localhost:8000)"]
+    subgraph Client["Interactive User Workspace (localhost:8000)"]
         UI["SPA Desktop Interface\n(Tailwind CSS + ES6 Modules + WebSockets)"]
     end
 
-    subgraph Gateway["⚙️ FastAPI Orchestration Gateway (/api/v1)"]
+    subgraph Gateway["FastAPI Orchestration Gateway (/api/v1)"]
         AUTH["JWT Authentication & Security Middleware"]
         ORCH["5-Agent Asynchronous State Machine"]
     end
 
-    subgraph Agents["🤖 Multi-Agent Pipeline"]
-        OA["① Onboarding Agent\nLearner Persona & Diagnostic Intake"]
-        LA["② Lesson Agent\nCalibrated Study Guide + Grounding"]
-        QA["③ Quiz Agent\nScenario MCQs + Applied Prompt Sandboxes"]
-        EA["④ Evaluator Agent\nSemantic Match + Structural Rule Check"]
-        RA["⑤ RAG Agent\nChromaDB Semantic Vector Retrieval"]
+    subgraph Agents["Multi-Agent Pipeline"]
+        OA["1. Onboarding Agent\nLearner Persona & Diagnostic Intake"]
+        LA["2. Lesson Agent\nCalibrated Study Guide + Grounding"]
+        QA["3. Quiz Agent\nScenario MCQs + Applied Prompt Sandboxes"]
+        EA["4. Evaluator Agent\nSemantic Match + Structural Rule Check"]
+        RA["5. RAG Agent\nChromaDB Semantic Vector Retrieval"]
     end
 
-    subgraph Inference["🧠 Inference Backends"]
+    subgraph Inference["Inference Backends"]
         OLL["Local Ollama Engine\n(gpt-oss:20b / gemma4:31b / qwen2.5)"]
         CLOUD["Ollama Cloud / Groq / OpenAI Fallback"]
     end
 
-    subgraph Storage["💾 Persistence & Graph Knowledge"]
+    subgraph Storage["Persistence & Graph Knowledge"]
         DB[(SQLite WAL Database\n8 Relational Tables)]
         VDB[(ChromaDB Vector Store\n1,899 Grounded QA Chunks)]
         DAG["curriculum_tree.json\n36 Topological Skill Nodes"]
@@ -101,9 +101,9 @@ graph TD
 
 ---
 
-## 💻 Installation & Setup Guide
+## 4. Installation and Setup Guide
 
-### 🍏 macOS (Apple Silicon & Intel)
+### 4.1 macOS (Apple Silicon & Intel)
 
 ```bash
 # 1. Install prerequisites via Homebrew (if not already installed)
@@ -135,7 +135,7 @@ python main.py
 
 ---
 
-### 🪟 Windows (Native PowerShell or WSL2)
+### 4.2 Windows (Native PowerShell or WSL2)
 
 #### Using Native PowerShell:
 ```powershell
@@ -158,7 +158,7 @@ copy .env.example .env
 python main.py
 ```
 
-#### Using WSL2 (Ubuntu on Windows — Recommended for GPU acceleration):
+#### Using WSL2 (Ubuntu on Windows — Recommended for CUDA Acceleration):
 ```bash
 # In WSL2 terminal:
 sudo apt update && sudo apt install -y python3-pip python3-venv git
@@ -172,7 +172,7 @@ python main.py
 
 ---
 
-### 🐧 Linux (Ubuntu / Debian / Fedora / Arch)
+### 4.3 Linux (Ubuntu / Debian / Fedora / Arch)
 
 ```bash
 # 1. Install system dependencies (Debian/Ubuntu)
@@ -199,7 +199,7 @@ python main.py
 
 ---
 
-### 🐳 Docker & Docker Compose (Any OS)
+### 4.4 Docker Containerization (Any Platform)
 
 ```bash
 # Build and start containerized Project ROAR
@@ -211,27 +211,9 @@ docker run -d -p 8000:8000 --name prompt-tutor project-roar-ai
 
 ---
 
-### ☁️ 1-Click Cloud Deployment (Render / Railway / Heroku)
+## 5. Empirical Evaluation and Research Benchmarks
 
-Project ROAR includes native `render.yaml` and `Procfile` configurations:
-
-1. Fork or push this repository to your GitHub account.
-2. Log into **[Render.com](https://dashboard.render.com/)** $\rightarrow$ Click **New +** $\rightarrow$ **Web Service**.
-3. Connect your repository. Render automatically reads `render.yaml`:
-   * **Build Command:** `pip install -r requirements.txt`
-   * **Start Command:** `uvicorn api.main:app --host 0.0.0.0 --port $PORT`
-4. Set Environment Variables:
-   * `ENV`: `production`
-   * `OLLAMA_HOST`: `https://api.ollama.com`
-   * `OLLAMA_API_KEY`: `<YOUR_OLLAMA_CLOUD_KEY>`
-   * `OLLAMA_DEFAULT_MODEL`: `gpt-oss:20b` *(or `gemma4:31b`)*
-5. Click **Deploy Web Service**.
-
----
-
-## 🔬 Empirical Evaluation & Research Benchmarks
-
-The project was evaluated using a comprehensive 4-category benchmark suite:
+The system was evaluated using a rigorous 4-category benchmark suite:
 
 | Evaluation Category | Benchmark Metric | Standard Baseline | Project ROAR | Scientific Impact |
 | :--- | :--- | :---: | :---: | :--- |
@@ -267,7 +249,7 @@ The project was evaluated using a comprehensive 4-category benchmark suite:
 
 ---
 
-## 🌳 Curriculum Knowledge Graph (36 Nodes)
+## 6. Curriculum Knowledge Graph (36 Nodes)
 
 The curriculum is structured as a Directed Acyclic Graph (DAG) across 4 Bloom taxonomy tiers:
 
@@ -296,7 +278,7 @@ Tier 4: Security, Robustness & Evaluation (4 Nodes, Weight: 3.8 - 4.0, Pass Thre
 
 ---
 
-## 📐 Adaptive Multi-Variable Scoring Equation
+## 7. Adaptive Multi-Variable Scoring Equation
 
 Student prompt submissions are dynamically graded using a 5-variable mathematical model:
 
@@ -310,7 +292,7 @@ $$\boxed{S_{\text{final}} = \max\!\left(0,\; \alpha \cdot S_{\text{sem}} + \beta
 
 ---
 
-## 🔌 API Endpoints Reference
+## 8. API Endpoints Reference
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
@@ -328,7 +310,7 @@ $$\boxed{S_{\text{final}} = \max\!\left(0,\; \alpha \cdot S_{\text{sem}} + \beta
 
 ---
 
-## 📂 Repository Structure
+## 9. Repository Structure
 
 ```
 .
@@ -364,14 +346,14 @@ $$\boxed{S_{\text{final}} = \max\!\left(0,\; \alpha \cdot S_{\text{sem}} + \beta
 │   ├── css/                      # Custom dark-mode styles
 │   └── js/                       # Modular ES6 view controllers
 ├── Dockerfile                    # Production Docker container
-├── render.yaml                   # 1-click cloud deployment blueprint
+├── render.yaml                   # Cloud deployment blueprint
 ├── requirements.txt              # Production Python dependencies
 └── main.py                       # Application launcher
 ```
 
 ---
 
-## 📄 License
+## 10. License
 
 This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
