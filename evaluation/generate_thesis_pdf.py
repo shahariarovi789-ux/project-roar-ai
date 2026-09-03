@@ -75,8 +75,6 @@ def build_pdf():
         bottomMargin=36
     )
 
-    styles = getSampleStyleSheet()
-
     # Color Palette
     PRIMARY = colors.HexColor("#0F172A")    # Dark Slate
     SECONDARY = colors.HexColor("#1E3A8A")  # Royal Navy
@@ -117,15 +115,6 @@ def build_pdf():
     body_style = ParagraphStyle(
         'BodyDark',
         fontName='Helvetica',
-        fontSize=8.5,
-        leading=12,
-        textColor=DARK_TEXT,
-        spaceAfter=4
-    )
-
-    body_bold = ParagraphStyle(
-        'BodyBold',
-        fontName='Helvetica-Bold',
         fontSize=8.5,
         leading=12,
         textColor=DARK_TEXT,

@@ -9,7 +9,7 @@ import json
 import sqlite3
 import aiosqlite
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, Any, List, Optional
 from core.learner_profile import LearnerProfile
 from core.state_machine import TutorState, TutorPhase
@@ -54,7 +54,7 @@ async def get_db_connection() -> aiosqlite.Connection:
 async def create_account(user_id: str, username: str, password_hash: str, email: Optional[str] = None) -> bool:
     db = await get_db_connection()
     try:
-        now = datetime.utcnow().isoformat()
+        now = datetime.now(timezone.utc).isoformat()
         await db.execute(
             """
             INSERT INTO accounts (user_id, username, email, password_hash, created_at, last_login)
@@ -127,7 +127,7 @@ async def get_learner_profile(user_id: str) -> Optional[LearnerProfile]:
 async def save_learner_profile(profile: LearnerProfile) -> bool:
     db = await get_db_connection()
     try:
-        now = datetime.utcnow().isoformat()
+        now = datetime.now(timezone.utc).isoformat()
         profile.updated_at = now
         p_dict = profile.to_dict()
         p_json = json.dumps(p_dict)
@@ -184,7 +184,7 @@ async def get_tutor_state(user_id: str) -> Optional[TutorState]:
 async def save_tutor_state(user_id: str, state: TutorState, completed_nodes: List[str]) -> bool:
     db = await get_db_connection()
     try:
-        now = datetime.utcnow().isoformat()
+        now = datetime.now(timezone.utc).isoformat()
         state_json = json.dumps(state.to_dict())
         nodes_json = json.dumps(completed_nodes)
         await db.execute(
@@ -227,7 +227,7 @@ async def record_quiz_attempt(
 ) -> int:
     db = await get_db_connection()
     try:
-        now = datetime.utcnow().isoformat()
+        now = datetime.now(timezone.utc).isoformat()
         cursor = await db.execute(
             """
             INSERT INTO node_attempts (
@@ -271,7 +271,7 @@ async def record_quiz_attempt(
             )
 
         await db.commit()
-        return cursor.lastrowid
+        return cursor.lastrowid or 0
     finally:
         await db.close()
 
@@ -301,7 +301,7 @@ async def log_research_metric(
 ):
     db = await get_db_connection()
     try:
-        now = datetime.utcnow().isoformat()
+        now = datetime.now(timezone.utc).isoformat()
         await db.execute(
             """
             INSERT INTO research_metrics (
@@ -319,7 +319,7 @@ async def log_research_metric(
 async def log_analytics_event(user_id: str, event_type: str, payload: Optional[Dict[str, Any]] = None):
     db = await get_db_connection()
     try:
-        now = datetime.utcnow().isoformat()
+        now = datetime.now(timezone.utc).isoformat()
         payload_json = json.dumps(payload) if payload else None
         await db.execute(
             """

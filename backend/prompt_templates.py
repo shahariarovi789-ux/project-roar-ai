@@ -50,7 +50,6 @@ def get_lesson_prompt(
     target_domain: str = "Modern AI Applications",
     fail_streak: int = 0
 ) -> str:
-    level = (prior_experience or "beginner").lower()
     concepts_str = ", ".join(key_concepts) if key_concepts else "Core prompt engineering principles"
 
     # Specific topic override if available

@@ -60,13 +60,13 @@ class TutorOrchestrator:
 
     @staticmethod
     async def fetch_current_lesson(user_id: str, node_id: Optional[str] = None, force_regen: bool = False) -> Dict[str, Any]:
-        profile = await get_learner_profile(user_id)
-        state = await get_tutor_state(user_id)
+        profile = await get_learner_profile(user_id) or LearnerProfile(user_id=user_id)
+        state = await get_tutor_state(user_id) or TutorState(user_id=user_id)
         
         target_node_id = node_id or state.current_node_id
         node = curriculum_graph.get_node_by_id(target_node_id) or curriculum_graph.nodes[0]
         
-        fail_streak = profile.get_fail_streak(node.id) if profile else 0
+        fail_streak = profile.get_fail_streak(node.id)
         lesson_data = await lesson_agent.generate_lesson(node, profile, fail_streak=fail_streak, force_regen=force_regen)
         
         # Log research metric
@@ -80,19 +80,19 @@ class TutorOrchestrator:
             quality_score=1.0
         )
         lesson_data["recent_activity"] = activity_tracker.get_recent(10)
-        lesson_data["is_passed"] = (node.id in profile.completed_nodes) if profile else False
-        lesson_data["is_current"] = (node.id == state.current_node_id) if state else True
+        lesson_data["is_passed"] = (node.id in profile.completed_nodes)
+        lesson_data["is_current"] = (node.id == state.current_node_id)
         return lesson_data
 
     @staticmethod
     async def fetch_current_quiz(user_id: str, node_id: Optional[str] = None, force_regen: bool = False) -> Dict[str, Any]:
-        profile = await get_learner_profile(user_id)
-        state = await get_tutor_state(user_id)
+        profile = await get_learner_profile(user_id) or LearnerProfile(user_id=user_id)
+        state = await get_tutor_state(user_id) or TutorState(user_id=user_id)
         
         target_node_id = node_id or state.current_node_id
         node = curriculum_graph.get_node_by_id(target_node_id) or curriculum_graph.nodes[0]
         
-        fail_streak = profile.get_fail_streak(node.id) if profile else 0
+        fail_streak = profile.get_fail_streak(node.id)
         quiz_data = await quiz_agent.generate_quiz_challenge(node, profile, fail_streak=fail_streak, force_regen=force_regen)
         
         # Update state with quiz questions and start timer
@@ -102,7 +102,7 @@ class TutorOrchestrator:
         await save_tutor_state(user_id, state, profile.completed_nodes)
 
         quiz_data["recent_activity"] = activity_tracker.get_recent(10)
-        quiz_data["is_passed"] = (node.id in profile.completed_nodes) if profile else False
+        quiz_data["is_passed"] = (node.id in profile.completed_nodes)
         return quiz_data
 
 
@@ -113,8 +113,8 @@ class TutorOrchestrator:
         Supports both dict: {"q1": ans1, "q2": ans2, "q3": ans3} or single string.
         """
         import time
-        profile = await get_learner_profile(user_id)
-        state = await get_tutor_state(user_id)
+        profile = await get_learner_profile(user_id) or LearnerProfile(user_id=user_id)
+        state = await get_tutor_state(user_id) or TutorState(user_id=user_id)
         node = curriculum_graph.get_node_by_id(state.current_node_id) or curriculum_graph.nodes[0]
 
         start_ts = state.quiz_start_timestamp or time.time()
@@ -184,7 +184,7 @@ class TutorOrchestrator:
 
     @staticmethod
     async def request_hint(user_id: str, question_idx: int = 1, node_id: Optional[str] = None) -> Dict[str, Any]:
-        state = await get_tutor_state(user_id)
+        state = await get_tutor_state(user_id) or TutorState(user_id=user_id)
         target_node_id = node_id or state.current_node_id
         node = curriculum_graph.get_node_by_id(target_node_id) or curriculum_graph.nodes[0]
 
@@ -210,7 +210,7 @@ class TutorOrchestrator:
         delivered.append(hint_text)
         state.delivered_hints = delivered
 
-        profile = await get_learner_profile(user_id)
+        profile = await get_learner_profile(user_id) or LearnerProfile(user_id=user_id)
         await save_tutor_state(user_id, state, profile.completed_nodes)
 
         await log_analytics_event(user_id, "hint_requested", {"node_id": node.id, "hint_num": state.hints_requested})
@@ -223,8 +223,8 @@ class TutorOrchestrator:
 
     @staticmethod
     async def advance_node(user_id: str) -> Dict[str, Any]:
-        profile = await get_learner_profile(user_id)
-        state = await get_tutor_state(user_id)
+        profile = await get_learner_profile(user_id) or LearnerProfile(user_id=user_id)
+        state = await get_tutor_state(user_id) or TutorState(user_id=user_id)
 
         activity_tracker.log("Orchestrator", f"Passed node {state.current_node_id}. Resolving next unlocked node...", "", "info")
         StateTransitionController.advance_to_next_node(state, profile)

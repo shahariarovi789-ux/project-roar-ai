@@ -151,7 +151,7 @@ async def run_full_evaluation() -> Dict[str, Any]:
 
     # ── 3. Multi-Agent Scaffolding & Progressive Hinting ───────
     print("\n[3/4] Evaluating Multi-Agent Scaffolding & Hinting Dynamics...")
-    node_eval = curriculum_graph.get_node_by_id("node_01")
+    node_eval = curriculum_graph.get_node_by_id("node_01") or curriculum_graph.nodes[0]
     q_sample = "What is the primary role of prompt engineering in LLM application design?"
 
     h1 = await quiz_agent.generate_hint(node_eval, q_sample, hint_number=1, previous_hints=[])

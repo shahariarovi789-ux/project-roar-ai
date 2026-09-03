@@ -28,13 +28,12 @@ class SimulatedStudent:
         self.persona_type = persona_type  # beginner, intermediate, adversarial
         self.skill_level = skill_level
         self.profile = LearnerProfile(user_id=f"sim_{persona_type}", prior_experience=skill_level)
-        self.history = []
+        self.history: List[Dict[str, Any]] = []
 
     def formulate_submission(self, node: CurriculumNode, attempt: int, hint_received: str = "") -> str:
         """
         Simulates student prompt formulation dynamically based on persona and received scaffolding.
         """
-        t = node.title.lower()
         if self.persona_type == "beginner":
             if attempt == 1:
                 # Naive, flawed attempt
@@ -49,10 +48,10 @@ class SimulatedStudent:
         elif self.persona_type == "intermediate":
             if attempt == 1:
                 # Missing negative constraints or subtle delimiter leakage
-                return f"Act as an assistant. Extract data from this document and output JSON: {{document_text}}"
+                return "Act as an assistant. Extract data from this document and output JSON: {document_text}"
             else:
                 # Corrected with Level 2 hint
-                return f"You are a strict data extractor. Extract data from <doc>{{document_text}}</doc>. Output raw JSON matching schema: {{\"id\": int, \"value\": str}}. Do not include markdown ticks or conversational preambles."
+                return "You are a strict data extractor. Extract data from <doc>{document_text}</doc>. Output raw JSON matching schema: {\"id\": int, \"value\": str}. Do not include markdown ticks or conversational preambles."
 
         elif self.persona_type == "adversarial":
             # Direct prompt injection & constraint bypass attempt
@@ -83,7 +82,7 @@ class CohortSimulationEngine:
             curriculum_graph.get_node_by_id("node_10") or curriculum_graph.nodes[9]
         ]
 
-        results = {
+        results: Dict[str, Any] = {
             "beginner_recovery_curve": [],
             "intermediate_scaffolding": [],
             "adversarial_defense": [],
@@ -97,7 +96,7 @@ class CohortSimulationEngine:
         alpha = students[0]
         node = test_nodes[2]  # Delimiters node
         
-        hints_accumulated = []
+        hints_accumulated: List[str] = []
         for attempt in [1, 2, 3]:
             hint_text = ""
             if attempt > 1:

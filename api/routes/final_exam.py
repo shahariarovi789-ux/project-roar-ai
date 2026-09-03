@@ -42,8 +42,8 @@ async def get_final_exam_status(user_id: str = Depends(get_current_user_id)):
 @router.get("/questions")
 async def get_final_exam_questions(user_id: str = Depends(get_current_user_id)):
     profile = await get_learner_profile(user_id)
-    if len(profile.completed_nodes) < len(curriculum_graph.nodes):
-        raise HTTPException(status_code=403, detail="Final Exam is locked until all 37 curriculum nodes are passed.")
+    if not profile or len(profile.completed_nodes) < len(curriculum_graph.nodes):
+        raise HTTPException(status_code=403, detail="Final Exam is locked until all curriculum nodes are passed.")
 
     # Phase A: 10 Theory MCQs
     phase_a = [
@@ -119,8 +119,8 @@ async def submit_final_exam(
     # Save Final Exam Result in DB
     db = await get_db_connection()
     try:
-        from datetime import datetime
-        now = datetime.utcnow().isoformat()
+        from datetime import datetime, timezone
+        now = datetime.now(timezone.utc).isoformat()
         await db.execute(
             """
             INSERT INTO final_exam_results (user_id, section_a_score, section_b_score, section_c_score, overall_score, passed, answers_json, completed_at)

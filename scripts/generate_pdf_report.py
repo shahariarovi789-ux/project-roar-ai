@@ -73,9 +73,7 @@ def build_pdf_report(output_path: str):
     c_primary = colors.HexColor("#0F172A")  # Dark Slate
     c_accent  = colors.HexColor("#B45309")  # Amber / Gold
     c_text    = colors.HexColor("#1E293B")  # Slate 800
-    c_muted   = colors.HexColor("#64748B")  # Slate 500
     c_bg_alt  = colors.HexColor("#F8FAFC")  # Slate 50
-    c_box_bg  = colors.HexColor("#F1F5F9")  # Slate 100
 
     title_style = ParagraphStyle(
         'DocTitle',

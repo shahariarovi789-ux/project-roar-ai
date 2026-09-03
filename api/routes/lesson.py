@@ -8,7 +8,8 @@ from fastapi import APIRouter, Depends, Query, HTTPException
 from api.middleware import get_current_user_id
 from agents.orchestrator import TutorOrchestrator
 from core.curriculum import curriculum_graph
-from core.state_machine import TutorPhase
+from core.learner_profile import LearnerProfile
+from core.state_machine import TutorPhase, TutorState
 from db.storage import get_learner_profile, get_tutor_state, save_tutor_state
 
 router = APIRouter(prefix="/lesson", tags=["Lesson"])
@@ -40,9 +41,8 @@ async def get_specific_node_lesson(
 @router.post("/skip-to-quiz")
 async def skip_to_quiz(user_id: str = Depends(get_current_user_id)):
     """Allows expert students to jump directly to the quiz section."""
-    profile = await get_learner_profile(user_id)
-    state = await get_tutor_state(user_id)
-    node = curriculum_graph.get_node_by_id(state.current_node_id) or curriculum_graph.nodes[0]
+    profile = await get_learner_profile(user_id) or LearnerProfile(user_id=user_id)
+    state = await get_tutor_state(user_id) or TutorState(user_id=user_id)
     
     state.phase = TutorPhase.QUIZ
     await save_tutor_state(user_id, state, profile.completed_nodes)

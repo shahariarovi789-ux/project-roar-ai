@@ -5,7 +5,7 @@ learning preferences, session time budgets, and runtime mastery state.
 """
 
 from dataclasses import dataclass, field, asdict
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Dict, List, Any, Optional
 import json
 
@@ -30,8 +30,8 @@ class LearnerProfile:
     mastery_map: Dict[str, float] = field(default_factory=dict)     # node_id -> score (0.0 - 1.0)
     fail_streaks: Dict[str, int] = field(default_factory=dict)      # node_id -> consecutive fail count
     
-    created_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
-    updated_at: str = field(default_factory=lambda: datetime.utcnow().isoformat())
+    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    updated_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -47,12 +47,12 @@ class LearnerProfile:
             self.completed_nodes.append(node_id)
         self.mastery_map[node_id] = round(max(self.mastery_map.get(node_id, 0.0), score), 2)
         self.fail_streaks[node_id] = 0
-        self.updated_at = datetime.utcnow().isoformat()
+        self.updated_at = datetime.now(timezone.utc).isoformat()
 
     def record_node_failure(self, node_id: str, score: float):
         self.fail_streaks[node_id] = self.fail_streaks.get(node_id, 0) + 1
         self.mastery_map[node_id] = round(score, 2)
-        self.updated_at = datetime.utcnow().isoformat()
+        self.updated_at = datetime.now(timezone.utc).isoformat()
 
     def get_fail_streak(self, node_id: str) -> int:
         return self.fail_streaks.get(node_id, 0)

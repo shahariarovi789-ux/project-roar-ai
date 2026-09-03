@@ -121,7 +121,7 @@ class CurriculumGraph:
     def summary_stats(self) -> Dict[str, Any]:
         tier_counts = {1: 0, 2: 0, 3: 0}
         tier_weights = {1: 0.0, 2: 0.0, 3: 0.0}
-        quiz_type_counts = {}
+        quiz_type_counts: Dict[str, int] = {}
 
         for n in self.nodes:
             tier_counts[n.difficulty_tier] += 1

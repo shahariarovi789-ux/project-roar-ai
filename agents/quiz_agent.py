@@ -172,7 +172,7 @@ Return strictly valid JSON only:
 """
 
         if force_regen:
-            prompt += f"\n\n### VARIATION REGENERATION DIRECTIVE:\nThe user requested a completely NEW, alternative assessment. Create a fresh scenario question with different practical problem domains, new parameter requirements, and distinct multiple choice distractors."
+            prompt += "\n\n### VARIATION REGENERATION DIRECTIVE:\nThe user requested a completely NEW, alternative assessment. Create a fresh scenario question with different practical problem domains, new parameter requirements, and distinct multiple choice distractors."
 
         # Execute genuine LLM generation
         res = await model_manager.generate_async(
@@ -261,7 +261,6 @@ Return strictly valid JSON only:
     def _generate_dynamic_fallback_questions(node: CurriculumNode) -> List[Dict[str, Any]]:
         """Generates dynamic, non-static fallback questions when LLM response is unparseable."""
         t = node.title
-        desc = node.description or "effective prompt design"
         key_concepts = node.rubric.get("key_concepts", []) if node.rubric else []
         concept_a = key_concepts[0] if key_concepts else "clear instructions"
         concept_b = key_concepts[1] if len(key_concepts) > 1 else "output constraints"
@@ -282,7 +281,7 @@ Return strictly valid JSON only:
                     "question": f"Why is {t} considered a foundational principle in modern prompt engineering?",
                     "options": [
                         "A) It makes prompts unnecessarily long and expensive to process",
-                        f"B) It establishes unambiguous guidance that steers the model toward deterministic, high-quality responses",
+                        "B) It establishes unambiguous guidance that steers the model toward deterministic, high-quality responses",
                         "C) It replaces the need to specify the user's objective",
                         "D) It only works on offline computer vision models"
                     ],
@@ -468,7 +467,7 @@ Return strictly valid JSON only:
             elif hint_number == 2:
                 return f"Explain the failure mode: without strict constraints for {node.title}, the model suffers from attention drift or hallucinations."
             else:
-                return f"In your fortified prompt, add explicit affirmative directives, clear input delimiters (e.g. ```), and strict negative output constraints."
+                return "In your fortified prompt, add explicit affirmative directives, clear input delimiters (e.g. ```), and strict negative output constraints."
 
         if is_writing:
             if hint_number == 1:
@@ -476,7 +475,7 @@ Return strictly valid JSON only:
             elif hint_number == 2:
                 return f"Integrate key parameters for {node.title} (e.g. {concept_str}) and structure the prompt with clear input delimiters."
             else:
-                return f"Complete your prompt by specifying the exact expected output schema and explicitly forbidding conversational preamble."
+                return "Complete your prompt by specifying the exact expected output schema and explicitly forbidding conversational preamble."
 
         # Generic progressive fallback based on node metadata
         if hint_number == 1:

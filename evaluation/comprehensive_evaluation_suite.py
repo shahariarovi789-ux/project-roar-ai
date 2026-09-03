@@ -54,20 +54,20 @@ class PedagogicalEfficacyTester:
         
         # After learning with Project ROAR (Group A: active progressive scaffolding & rubric remediation)
         # Real execution: test a sample node with evaluator
-        group_a_post = []
+        group_a_post_list = []
         for pre in group_a_pre:
             # ROAR pedagogical progression: average +35 to +50 points gain
             post = min(100.0, pre + np.random.uniform(38.0, 52.0))
-            group_a_post.append(post)
-        group_a_post = np.array(group_a_post)
+            group_a_post_list.append(post)
+        group_a_post = np.array(group_a_post_list)
         
         # After learning with Vanilla ChatGPT (Group B: passive solution dumping / scaffolding collapse)
-        group_b_post = []
+        group_b_post_list = []
         for pre in group_b_pre:
             # Vanilla LLM: cognitive offloading leads to lower retention gain (+10 to +22 points)
             post = min(100.0, pre + np.random.uniform(12.0, 24.0))
-            group_b_post.append(post)
-        group_b_post = np.array(group_b_post)
+            group_b_post_list.append(post)
+        group_b_post = np.array(group_b_post_list)
         
         # Normalized Learning Gain: g = (Post - Pre) / (100 - Pre)
         g_a = (group_a_post - group_a_pre) / (100.0 - group_a_pre)
@@ -255,7 +255,6 @@ class StateMachineVerifier:
         
         failures = 0
         deadlocks = 0
-        serialization_drops = 0
         
         for _ in range(num_transitions):
             # Valid state machine transition rules
@@ -299,7 +298,7 @@ class StateMachineVerifier:
         # Test 2: Circular dependency check
         has_cycles = False
         try:
-            sorted_nodes = curriculum_graph.get_ordered_sequence()
+            _ = curriculum_graph.get_ordered_sequence()
         except Exception:
             has_cycles = True
             

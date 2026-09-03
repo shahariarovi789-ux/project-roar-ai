@@ -4,11 +4,12 @@ SQLAlchemy ORM Models and Pydantic Schemas for Database Operations.
 """
 
 from sqlalchemy import Column, String, Integer, Float, Text, ForeignKey, create_engine
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import DeclarativeBase, relationship
 from pydantic import BaseModel, EmailStr
 from typing import Optional, List, Dict, Any
 
-Base = declarative_base()
+class Base(DeclarativeBase):
+    pass
 
 
 class AccountORM(Base):

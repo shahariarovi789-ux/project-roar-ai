@@ -114,7 +114,6 @@ Return strictly valid JSON matching this schema:
 
         if not data or "winner" not in data:
             # Fallback based on structural criteria
-            winner_choice = "Tutor A" if is_roar_first else "Tutor B"
             if is_roar_first:
                 data = {
                     "tutor_a_scores": {"scaffolding": 5, "grounding": 5, "personalization": 4, "rubric": 5, "remediation": 5},

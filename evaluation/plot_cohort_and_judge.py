@@ -99,12 +99,7 @@ def generate_all_evaluation_plots():
     fig, ax = plt.subplots(figsize=(7, 5), facecolor='#0B0E17')
     ax.set_facecolor('#11141D')
 
-    labels = ['Project ROAR\n(Agentic Tutor)', 'Vanilla ChatGPT\n(Baseline)', 'Ties']
-    sizes = [100.0, 0.0, 0.0]
-    colors = ['#FBBF24', '#F87171', '#64748B']
-    explode = (0.05, 0, 0)
-
-    wedges, texts, autotexts = ax.pie(
+    _, _, autotexts = ax.pie(
         [100.0, 0.0, 0.0],
         labels=['Project ROAR (100% Win Rate)', '', ''],
         autopct='%1.0f%%',
@@ -143,7 +138,7 @@ def generate_all_evaluation_plots():
     ax.set_facecolor('#11141D')
     ax.grid(True, axis='y')
 
-    rects1 = ax.bar(x - width/2, vanilla_ratings, width, label='Vanilla ChatGPT (Baseline)', color='#64748B', edgecolor='#334155')
+    ax.bar(x - width/2, vanilla_ratings, width, label='Vanilla ChatGPT (Baseline)', color='#64748B', edgecolor='#334155')
     rects2 = ax.bar(x + width/2, roar_ratings, width, label='Project ROAR (Agentic Tutor)', color='#FBBF24', edgecolor='#334155')
 
     ax.set_title('Pedagogical Quality Ratings Across 5 Gold-Standard Educational Dimensions (1-5 Scale)', fontsize=12, fontweight='bold', color='#FFFFFF', pad=14)

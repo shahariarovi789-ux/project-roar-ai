@@ -122,8 +122,10 @@ Output JSON ONLY adhering strictly to this schema:
                 fb = "Good prompt structure."
                 try:
                     cleaned = re.sub(r"<think>.*?</think>", "", judge_res["text"], flags=re.DOTALL).strip()
-                    parsed = json.loads(re.search(r"\{.*\}", cleaned, re.DOTALL).group(0))
-                    fb = parsed.get("feedback", "Good prompt structure.")
+                    match = re.search(r"\{.*\}", cleaned, re.DOTALL)
+                    if match:
+                        parsed = json.loads(match.group(0))
+                        fb = parsed.get("feedback", "Good prompt structure.")
                 except Exception:
                     pass
                 rationales.append(f"Q{i}: {fb}")
