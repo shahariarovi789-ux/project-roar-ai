@@ -1,4 +1,4 @@
-# Project ROAR: Adaptive Multi-Agent Intelligent Tutoring System
+# Project ROAR: Grounded Multi-Agent Orchestration and Model Context Protocol for Adaptive Intelligent Tutoring in Prompt Engineering
 
 <div align="center">
 
