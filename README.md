@@ -106,8 +106,8 @@ graph TD
 The research methodology of Project ROAR is structured around six core scientific and engineering pillars:
 
 <div align="center">
-  <img src="assets/screenshots/comprehensive_methodology_architecture.png" width="900" alt="Project ROAR End-to-End System Architecture and Methodology Diagram"/>
-  <p><i>Figure 4.1: Comprehensive End-to-End System Architecture & Methodology of Project ROAR — detailing the 5 architectural tiers (Student Interaction, HMAS Multi-Agent Orchestration, MCP 2.x Protocol Bus, Grounded Knowledge & RAG, and Dual-Engine Inference/Evaluator) across 10 sequential execution steps and dual adaptive feedback loops (Loop A: Socratic hint decay; Loop B: Mastery & DAG progression).</i></p>
+  <img src="assets/screenshots/simplified_methodology_diagram.png" width="850" alt="Project ROAR Research Methodology and Adaptive Tutoring Workflow Diagram"/>
+  <p><i>Figure 4.1: Project ROAR Research Methodology & Adaptive Tutoring Workflow — an intuitive 8-step learning loop integrating Grounded Multi-Agent Orchestration (HMAS), Model Context Protocol (MCP 2.x), Vector RAG Grounding, and Dual Adaptive Feedback Loops (Loop A: Socratic hint decay; Loop B: Curriculum DAG advancement).</i></p>
 </div>
 
 ```
@@ -169,6 +169,14 @@ Submissions are evaluated through a two-stage decoupled grading pipeline:
 3. **Composite Scoring:** Combined via the calibrated 5-variable adaptive formula:
    $$S_{\text{final}} = \max\left(0,\; \alpha S_{\text{sem}} + \beta S_{\text{rule}} - \gamma H - \delta T_{\text{penalty}} - \varepsilon R_{\text{fail}}\right)$$
    where $\alpha = 0.50$, $\beta = 0.50$, $\gamma = 0.05$, $\delta = 0.05$, and $\varepsilon = 0.01$.
+ 
+### 4.7 Comprehensive End-to-End System Architecture (Detailed 5-Tier Schematic)
+For a complete low-level architectural specification, the diagram below maps all five functional layers of the Project ROAR runtime—from presentation and protocol dispatch down to vector storage and dual-stage scoring:
+
+<div align="center">
+  <img src="assets/screenshots/comprehensive_methodology_architecture.png" width="900" alt="Project ROAR Detailed 5-Tier System Architecture Schematic"/>
+  <p><i>Figure 4.2: Comprehensive End-to-End System Architecture of Project ROAR — 5 architectural tiers detailing the HMAS agent hierarchy, MCP 2.x JSON-RPC bus, ChromaDB RAG store, 36-node DAG topology, and dual adaptive feedback loops.</i></p>
+</div>
 
 ---
 
