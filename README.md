@@ -106,8 +106,8 @@ graph TD
 The research methodology of Project ROAR is structured around six core scientific and engineering pillars:
 
 <div align="center">
-  <img src="assets/screenshots/methodology_flow_diagram.png" width="800" alt="Project ROAR Methodology Workflow Diagram"/>
-  <p><i>Figure 4.1: Project ROAR 8-Step Adaptive Methodology & Agent-Student Feedback Loop.</i></p>
+  <img src="assets/screenshots/comprehensive_methodology_architecture.png" width="900" alt="Project ROAR End-to-End System Architecture and Methodology Diagram"/>
+  <p><i>Figure 4.1: Comprehensive End-to-End System Architecture & Methodology of Project ROAR — detailing the 5 architectural tiers (Student Interaction, HMAS Multi-Agent Orchestration, MCP 2.x Protocol Bus, Grounded Knowledge & RAG, and Dual-Engine Inference/Evaluator) across 10 sequential execution steps and dual adaptive feedback loops (Loop A: Socratic hint decay; Loop B: Mastery & DAG progression).</i></p>
 </div>
 
 ```
