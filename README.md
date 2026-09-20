@@ -105,6 +105,11 @@ graph TD
 
 The research methodology of Project ROAR is structured around six core scientific and engineering pillars:
 
+<div align="center">
+  <img src="assets/screenshots/methodology_architecture.jpg" width="850" alt="Project ROAR Methodology Architecture Diagram"/>
+  <p><i>Figure 4.1: Project ROAR System Architecture & Research Methodology Flow.</i></p>
+</div>
+
 ```
 +---------------------------------------------------------------------------------------------------------+
 |                                    PROJECT ROAR RESEARCH METHODOLOGY                                    |
