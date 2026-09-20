@@ -23,3 +23,6 @@ htmlcov/
 # Temporary files
 *.tmp
 *.log
+
+# Private AI Context
+PROJECT_ROAR_CONTEXT.md
