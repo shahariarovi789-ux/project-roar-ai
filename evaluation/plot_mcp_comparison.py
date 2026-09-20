@@ -88,17 +88,21 @@ def plot_mcp_radar():
     mcp_scores += mcp_scores[:1]
     angles += angles[:1]
 
-    fig, ax = plt.subplots(figsize=(7.5, 7.5), subplot_kw=dict(polar=True), facecolor='#0F172A')
+    fig, ax = plt.subplots(figsize=(8.5, 8.5), subplot_kw=dict(polar=True), facecolor='#0F172A')
     ax.set_facecolor('#1E293B')
 
     # Draw axes
     ax.set_theta_offset(np.pi / 2)
     ax.set_theta_direction(-1)
+    
+    # Category labels with generous padding to prevent overlap
     plt.xticks(angles[:-1], categories, color='#E2E8F0', size=9.5, fontweight='bold')
+    ax.tick_params(axis='x', pad=32)
 
-    ax.set_rlabel_position(0)
-    plt.yticks([25, 50, 75, 100], ["25%", "50%", "75%", "100%"], color="#64748B", size=8)
-    plt.ylim(0, 105)
+    # Radial tick labels positioned away from axis spokes and category text
+    ax.set_rlabel_position(36)
+    plt.yticks([25, 50, 75, 100], ["25%", "50%", "75%", "100%"], color="#94A3B8", size=8.5, fontweight='bold')
+    plt.ylim(0, 120)
 
     # Plot Direct
     ax.plot(angles, direct_scores, linewidth=2, linestyle='solid', label='Without MCP (Baseline)', color='#F87171')
@@ -108,8 +112,8 @@ def plot_mcp_radar():
     ax.plot(angles, mcp_scores, linewidth=2.5, linestyle='solid', label='With MCP (Project ROAR)', color='#38BDF8')
     ax.fill(angles, mcp_scores, '#38BDF8', alpha=0.35)
 
-    plt.title('Multi-Agent Architectural Capabilities: With MCP vs. Without MCP', size=13, color='#F8FAFC', weight='bold', pad=25)
-    plt.legend(loc='upper right', bbox_to_anchor=(1.25, 1.1), facecolor='#0F172A', edgecolor='#334155', labelcolor='#F8FAFC')
+    plt.title('Multi-Agent Architectural Capabilities: With MCP vs. Without MCP', size=13, color='#F8FAFC', weight='bold', pad=35)
+    plt.legend(loc='upper right', bbox_to_anchor=(1.20, 1.12), facecolor='#0F172A', edgecolor='#334155', labelcolor='#F8FAFC', fontsize=9.5)
 
     out_path = PLOTS_DIR / "figure_mcp_radar_comparison.png"
     plt.savefig(out_path, dpi=300, facecolor=fig.get_facecolor(), bbox_inches='tight')
