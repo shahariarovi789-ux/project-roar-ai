@@ -13,11 +13,14 @@ Structure:
 """
 
 import os
+from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from matplotlib.path import Path
+from matplotlib.path import Path as MplPath
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
 
 # Canvas setup - 300 DPI publication quality
 fig, ax = plt.subplots(figsize=(18, 26), dpi=300)
@@ -125,7 +128,7 @@ def draw_arrow(ax, p1, p2, color=ARROW_COLOR, lw=1.6, label="", rad=0.0):
                 bbox=dict(boxstyle='round,pad=0.2', facecolor='white', edgecolor=PANEL_BORDER, lw=0.8, alpha=0.95))
 
 def draw_corner_arrow(ax, points, color=ARROW_COLOR, lw=1.6, label="", label_pt=None):
-    path = Path(points)
+    path = MplPath(points)
     arr = patches.FancyArrowPatch(path=path, arrowstyle="-|>", mutation_scale=14, color=color, lw=lw, zorder=10)
     ax.add_patch(arr)
     if label:
@@ -362,11 +365,11 @@ draw_corner_arrow(ax, [(eval_engine_x + 8, eval_engine_y + 7.5), (eval_engine_x 
                   color=GREEN_ACCENT, lw=2.2, label="LOOP B: Pass (>=70%) -> Update Mastery & Unlock Next DAG Node", label_pt=(81.0, 25.5))
 
 # Output paths
-os.makedirs("/Users/a/thesis-prompt-tutor/assets/screenshots", exist_ok=True)
-os.makedirs("/Users/a/thesis-prompt-tutor/evaluation/plots", exist_ok=True)
+os.makedirs(ROOT_DIR / "assets" / "screenshots", exist_ok=True)
+os.makedirs(ROOT_DIR / "evaluation" / "plots", exist_ok=True)
 
-out1 = "/Users/a/thesis-prompt-tutor/assets/screenshots/comprehensive_methodology_architecture.png"
-out2 = "/Users/a/thesis-prompt-tutor/evaluation/plots/figure_comprehensive_methodology_architecture.png"
+out1 = str(ROOT_DIR / "assets" / "screenshots" / "comprehensive_methodology_architecture.png")
+out2 = str(ROOT_DIR / "evaluation" / "plots" / "figure_comprehensive_methodology_architecture.png")
 
 plt.tight_layout()
 plt.savefig(out1, dpi=300, bbox_inches='tight', facecolor=BG_COLOR)

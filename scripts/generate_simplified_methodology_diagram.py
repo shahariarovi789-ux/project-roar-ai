@@ -15,11 +15,14 @@ Enhanced with clean, elegant vector icons matching the reference diagram:
 """
 
 import os
+from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
-from matplotlib.path import Path
+from matplotlib.path import Path as MplPath
+
+ROOT_DIR = Path(__file__).resolve().parent.parent
 
 # Canvas setup - 300 DPI publication quality
 fig, ax = plt.subplots(figsize=(16, 17.5), dpi=300)
@@ -205,7 +208,7 @@ def draw_arrow(ax, p1, p2, color=ARROW_COLOR, lw=1.8, label="", rad=0.0):
 
 def draw_corner_arrow(ax, points, color=ARROW_COLOR, lw=1.8, label="", label_pt=None):
     """Draw right-angled arrow corridor"""
-    path = Path(points)
+    path = MplPath(points)
     arr = patches.FancyArrowPatch(path=path, arrowstyle="-|>", mutation_scale=15, color=color, lw=lw, zorder=10)
     ax.add_patch(arr)
     if label:
@@ -368,12 +371,12 @@ draw_corner_arrow(ax, [(n8_x - n8_w/2, n8_y), (3.5, n8_y), (3.5, n1_y), (n1_x - 
                   color=ACCENT_GREEN, lw=2.2, label="LOOP B: Advance Curriculum DAG", label_pt=(3.5, 49.0))
 
 # Output paths
-os.makedirs("/Users/a/thesis-prompt-tutor/assets/screenshots", exist_ok=True)
-os.makedirs("/Users/a/thesis-prompt-tutor/evaluation/plots", exist_ok=True)
+os.makedirs(ROOT_DIR / "assets" / "screenshots", exist_ok=True)
+os.makedirs(ROOT_DIR / "evaluation" / "plots", exist_ok=True)
 
-out1 = "/Users/a/thesis-prompt-tutor/assets/screenshots/simplified_methodology_diagram.png"
-out2 = "/Users/a/thesis-prompt-tutor/assets/screenshots/methodology_flow_diagram.png"
-out3 = "/Users/a/thesis-prompt-tutor/evaluation/plots/figure_simplified_methodology_diagram.png"
+out1 = str(ROOT_DIR / "assets" / "screenshots" / "simplified_methodology_diagram.png")
+out2 = str(ROOT_DIR / "assets" / "screenshots" / "methodology_flow_diagram.png")
+out3 = str(ROOT_DIR / "evaluation" / "plots" / "figure_simplified_methodology_diagram.png")
 
 plt.tight_layout()
 plt.savefig(out1, dpi=300, bbox_inches='tight', facecolor=BG_COLOR)

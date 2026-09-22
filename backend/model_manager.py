@@ -299,7 +299,7 @@ class ModelManager:
                     if resp.status_code == 200:
                         data = resp.json()
                         text = data.get("response", "").strip()
-                        if text:
+                        if text and len(text) > 40:
                             latency = round((time.time() - start_t) * 1000, 2)
                             tokens = data.get("eval_count", len(text.split()))
 
@@ -318,6 +318,8 @@ class ModelManager:
                                 "tokens_used": tokens,
                                 "model": f"{self.current_model} ({provider_tag})"
                             }
+                        elif text:
+                            activity_tracker.log(agent_name, "Upstream response too brief/truncated", f"Got {len(text)} chars, falling back to synthesizer", "warning")
                     else:
                         activity_tracker.log(agent_name, f"Ollama HTTP {resp.status_code}", resp.text[:120], "error")
             except Exception as e:
