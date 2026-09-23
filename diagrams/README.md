@@ -1,13 +1,16 @@
 # Project ROAR: Architectural & Research Diagrams
 **Department of Computer Science & Engineering, University of Liberal Arts Bangladesh (ULAB)**
 
-This directory contains publication-grade, high-resolution (300 DPI) architectural diagrams detailing the three core technical pillars of **Project ROAR (Research-Grade Open-source Adaptive Tutor for Prompt Engineering)**:
+This directory contains publication-grade, high-resolution (**300 DPI**) architectural diagrams detailing the three core technical pillars of **Project ROAR (Research-Grade Open-source Adaptive Tutor for Prompt Engineering)**. 
+
+All figures are specifically calibrated for standard **Letter / A4 printed thesis reports** (standard 7.0-inch column width, fixed 16:11.5 aspect ratio, high-contrast dark-slate typography `#0f172a`, minimum 8.5pt body text, and zero label collisions).
 
 ---
 
 ## 1. Hierarchical Multi-Agent System (HMAS) Design
 **File:** [`hmas_design_architecture.png`](hmas_design_architecture.png)  
-**Generator:** `scripts/generate_hmas_diagram.py`
+**Generator Script:** `scripts/generate_hmas_diagram.py`  
+**Dimensions:** 4800 × 3450 px (16 × 11.5 in @ 300 DPI)
 
 ![HMAS Design Architecture](hmas_design_architecture.png)
 
@@ -25,39 +28,39 @@ This directory contains publication-grade, high-resolution (300 DPI) architectur
 4. **Dual Adaptive Feedback Corridors:**
    - **Loop A (Fail $< 70\%$):** 3-Tier Socratic Hint Decay looping into Quiz Agent.
    - **Loop B (Pass $\ge 70\%$):** Curriculum DAG advance and mastery record update.
+5. **Print Optimization:** Clear channel routing between inter-tier data links and RAG query corridors; spacious agent boxes with top-aligned subtitles preventing vertical text overlap.
 
 ---
 
 ## 2. Curriculum Knowledge Graph & Prerequisite Gating
 **File:** [`curriculum_knowledge_graph_gating.png`](curriculum_knowledge_graph_gating.png)  
-**Generator:** `scripts/generate_curriculum_dag_diagram.py`
+**Generator Script:** `scripts/generate_curriculum_dag_diagram.py`  
+**Dimensions:** 4800 × 3450 px (16 × 11.5 in @ 300 DPI)
 
 ![Curriculum Knowledge Graph & Prerequisite Gating](curriculum_knowledge_graph_gating.png)
 
 ### Key Pedagogical Concepts Visualized:
-1. **36-Node Directed Acyclic Graph (DAG):** Structures prompt engineering competencies across 4 Bloom taxonomy cognitive tiers:
-   - **Tier 1: Foundations & Syntax** (11 nodes, weights 1.0–1.5, passing threshold $\ge 50\%$)
-   - **Tier 2: Techniques & Applied Engineering** (15 nodes, weights 1.8–2.8, passing threshold $\ge 60\%$)
-   - **Tier 3: Output Engineering & Optimization** (6 nodes, weights 3.0–3.5, passing threshold $\ge 70\%$)
-   - **Tier 4: Security, Robustness & Capstone** (4 nodes, weights 3.8–4.0, passing threshold $\ge 75\%$)
-2. **Mathematical Prerequisite Gating Invariant:**
-   $$\text{Unlocked}(v, \mathcal{C}) \iff \forall u \in \text{Parents}(v),\; u \in \mathcal{C}$$
-   Where $\mathcal{C} = \{ u \in \mathcal{V} \mid S_{\text{final}}(u) \ge \theta_{\text{pass}}(u) \}$.
-3. **Live Gating Examples:**
-   - **Unlocked Node:** Node 11 (Contextual Prompting) opens because both Node 09 (82%) and Node 10 (76%) exceed the 60% passing requirement.
-   - **Locked Node:** Node 16 (ReAct Loops) is blocked because parent Node 13 (CoT) scored 52% (below the 60% requirement), routing the student to Socratic remediation.
+1. **Mathematical Prerequisite Gating Invariant:**
+   $$\mathbf{Unlocked}(v, \mathcal{C}) \Longleftrightarrow \forall u \in \mathbf{Parents}(v),\; u \in \mathcal{C}$$
+   Where $\mathcal{C} = \{ u \in \mathcal{V} \mid S_{\text{final}}(u) \ge \theta_{\text{pass}}(u) \}$. Enforces a strict 100% anti-skip guarantee.
+2. **Dual Operational Gating Scenarios:**
+   - **Scenario A (Unlocked):** Node 11 (*Contextual Prompting*) unblocks dynamically when parent nodes (Node 09 @ 82% and Node 10 @ 76%) exceed the 60% mastery threshold.
+   - **Scenario B (Blocked / Remediation Triggered):** Node 16 (*ReAct Loops*) is locked when parent Node 13 (*Chain-of-Thought*) falls below the 60% requirement (52%), automatically routing the student into Socratic hint remediation.
+3. **Core Topological Milestone Backbone:** A 4-tier horizontal progression across Bloom's Taxonomy (Tier 1 Foundations $\to$ Tier 2 Techniques $\to$ Tier 3 Optimization $\to$ Tier 4 Robustness & Capstone) featuring bold dependency arcs.
+4. **Full 36-Node Knowledge Base Directory:** A comprehensive, print-legible 4-column structured index enumerating every node identifier, module title, and difficulty weighting across all four cognitive tiers.
 
 ---
 
 ## 3. Standardized Orchestration via Model Context Protocol (MCP 2.x)
 **File:** [`mcp_orchestration_architecture.png`](mcp_orchestration_architecture.png)  
-**Generator:** `scripts/generate_mcp_orchestration_diagram.py`
+**Generator Script:** `scripts/generate_mcp_orchestration_diagram.py`  
+**Dimensions:** 4800 × 3450 px (16 × 11.5 in @ 300 DPI)
 
 ![MCP Orchestration Architecture](mcp_orchestration_architecture.png)
 
 ### Key Protocol Concepts Visualized:
 1. **FastMCP Server & Client Architecture:** Mediates between cognitive agent reasoning and state persistence, reducing cross-agent coupling by **83.3%**.
-2. **Canonical Resources (`roar://...`):**
+2. **Canonical URI Resources (`roar://...`):**
    - `roar://learner/{user_id}/profile`: Live cognitive profile, Bloom mastery level, and learning preferences.
    - `roar://learner/{user_id}/session`: Active session state, elapsed seconds, and hint usage counters.
    - `roar://curriculum/dag`: Complete 36-node topological graph, weights, rubrics, and prerequisites.
@@ -69,24 +72,26 @@ This directory contains publication-grade, high-resolution (300 DPI) architectur
    - `grade_prompt_submission(node_id, questions, answers)`
    - `update_learner_progress(user_id, node_id, score)`
 4. **Pydantic Schema Validation Firewall:** Intercepts 100% of malformed parameters before reaching execution logic.
-5. **Empirical Advantages:**
+5. **Empirical Benchmarks & Architectural Guarantees:**
    - **0.0% Context Drift** (vs 18.4% in ad-hoc shared memory)
-   - **<0.75 ms Protocol Overhead**
+   - **<0.75 ms Protocol Overhead** (sub-millisecond latency)
+   - **100% Type-Safe Contracts** via strict Pydantic v2 validation.
 
 ---
 
 ## 4. How to Regenerate Diagrams
 
-Run the respective generator scripts from the repository root:
+Ensure dependencies are installed in your virtual environment (`matplotlib`, `numpy`), then execute:
 
 ```bash
-# Regenerate HMAS Design Diagram
+# Regenerate HMAS Design Architecture Diagram
 python scripts/generate_hmas_diagram.py
 
 # Regenerate Curriculum Knowledge Graph & Gating Diagram
 python scripts/generate_curriculum_dag_diagram.py
 
-# Regenerate MCP Orchestration Diagram
+# Regenerate MCP Orchestration Architecture Diagram
 python scripts/generate_mcp_orchestration_diagram.py
 ```
-All outputs will be saved directly into this `diagrams/` directory in 300 DPI publication quality.
+
+All figures are compiled to `diagrams/*.png` in uncompressed 300 DPI print-ready format.

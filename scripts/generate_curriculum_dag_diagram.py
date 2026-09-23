@@ -1,275 +1,292 @@
 #!/usr/bin/env python3
 """
-Generate Publication-Grade Curriculum Knowledge Graph & Prerequisite Gating Diagram for Project ROAR.
-Visualizes:
-  - 36-Node Directed Acyclic Graph (DAG) structured across cognitive tiers
-  - Topological prerequisite dependency edges
-  - Mathematical Prerequisite Gating Mechanism (Unlocked(v, C) <=> Parents(v) subset C)
-  - Live Gating Example: Unlocked vs Locked nodes
-  - Bloom's Taxonomy alignment, difficulty weights (1.0 to 4.0), and pass thresholds
+Generate Print-Optimized, Publication-Grade Curriculum Knowledge Graph & Prerequisite Gating Diagram.
+Optimized for 8.5x11 / A4 printed technical reports:
+  - Large typography (9.0pt to 17pt) legible when scaled down to paper
+  - Mathematical Invariant Gating Formulation (Unlocked(v, C) <=> Parents(v) subset C)
+  - Side-by-side Dual Operational Gating Verification (Unlocked vs Blocked Anti-Skip)
+  - Core Competency Milestone Flow across Cognitive Progression Tiers
+  - Complete 36-Node Curriculum Knowledge Grid (Zero omission, full academic rigor)
 Output: diagrams/curriculum_knowledge_graph_gating.png (300 DPI)
 """
 
 import os
-import json
 from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib.path import Path as MplPath
-import numpy as np
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DIAGRAMS_DIR = ROOT_DIR / "diagrams"
 DIAGRAMS_DIR.mkdir(parents=True, exist_ok=True)
 
-fig, ax = plt.subplots(figsize=(24, 16), dpi=300)
-ax.set_xlim(0, 120)
+# 16:11.5 Aspect Ratio - Standard Print Dimension
+fig, ax = plt.subplots(figsize=(16, 11.5), dpi=300)
+ax.set_xlim(0, 100)
 ax.set_ylim(0, 100)
 ax.axis('off')
 
-# Color Palette: Academic Publication Palette
+# Academic Print Palette
 BG_COLOR       = "#ffffff"
 DARK_NAVY      = "#0f172a"
 SLATE_DARK     = "#1e293b"
 SLATE_MED      = "#475569"
-SLATE_LIGHT    = "#94a3b8"
 CARD_BG        = "#f8fafc"
-CARD_BORDER    = "#cbd5e1"
+CARD_BORDER    = "#94a3b8"
 
-# Tier Palettes
+# Cognitive Tier Palette
 T1_COLOR = "#0284c7"  # Sky Blue (Foundations)
 T1_BG    = "#f0f9ff"
-T2_COLOR = "#4338ca"  # Indigo (Techniques)
+T2_COLOR = "#3730a3"  # Indigo (Techniques & Applied)
 T2_BG    = "#eef2ff"
-T3_COLOR = "#7c3aed"  # Purple (Reasoning & Output)
+T3_COLOR = "#6d28d9"  # Purple (Output Eng & Schemas)
 T3_BG    = "#f5f3ff"
-T4_COLOR = "#059669"  # Green / Emerald (Security & Capstone)
+T4_COLOR = "#047857"  # Emerald (Reasoning & Capstone)
 T4_BG    = "#ecfdf5"
 
-GREEN_SUCCESS = "#059669"
-RED_LOCK      = "#dc2626"
-AMBER_WARN    = "#d97706"
+GREEN_SUCCESS = "#047857"
+GREEN_BG      = "#ecfdf5"
+RED_LOCK      = "#b91c1c"
+RED_BG        = "#fef2f2"
+AMBER_WARN    = "#b45309"
+AMBER_BG       = "#fffbeb"
 
 FONT_FAMILY = "sans-serif"
 fig.patch.set_facecolor(BG_COLOR)
 ax.set_facecolor(BG_COLOR)
 
-# ------------------------------------------------------------------------------
-# HELPER FUNCTIONS
-# ------------------------------------------------------------------------------
-def draw_card(ax, x, y, w, h, bg_color=CARD_BG, border_color=CARD_BORDER, corner_radius=1.2, lw=1.2, zorder=3):
+def draw_card(ax, x, y, w, h, bg_color=CARD_BG, border_color=CARD_BORDER, corner_radius=1.2, lw=1.8, zorder=3):
     rect = patches.FancyBboxPatch((x - w/2, y - h/2), w, h,
                                   boxstyle=f"round,pad=0,rounding_size={corner_radius}",
                                   facecolor=bg_color, edgecolor=border_color, linewidth=lw, zorder=zorder)
     ax.add_patch(rect)
     return rect
 
-def draw_badge(ax, x, y, text, bg_color=DARK_NAVY, text_color="white", w=3.6, h=1.8, font_size=7.5, zorder=20):
+def draw_badge(ax, x, y, text, bg_color=DARK_NAVY, text_color="white", w=4.5, h=2.2, font_size=9.0, zorder=20):
     rect = patches.FancyBboxPatch((x - w/2, y - h/2), w, h,
                                   boxstyle="round,pad=0,rounding_size=0.6",
                                   facecolor=bg_color, edgecolor="none", zorder=zorder)
     ax.add_patch(rect)
-    ax.text(x, y - 0.1, text, color=text_color, fontsize=font_size, fontweight='bold',
+    ax.text(x, y - 0.05, text, color=text_color, fontsize=font_size, fontweight='bold',
             ha='center', va='center', zorder=zorder+1, fontfamily=FONT_FAMILY)
 
-def draw_arrow(ax, p1, p2, color=SLATE_MED, lw=1.2, zorder=5):
-    arr = patches.FancyArrowPatch(p1, p2, arrowstyle="-|>", mutation_scale=11,
+def draw_arrow(ax, p1, p2, color=SLATE_DARK, lw=2.0, zorder=10):
+    arr = patches.FancyArrowPatch(p1, p2, arrowstyle="-|>", mutation_scale=16,
+                                  color=color, lw=lw, zorder=zorder)
+    ax.add_patch(arr)
+
+def draw_corner_arrow(ax, points, color=SLATE_DARK, lw=2.0, zorder=10):
+    path = MplPath(points)
+    arr = patches.FancyArrowPatch(path=path, arrowstyle="-|>", mutation_scale=16,
                                   color=color, lw=lw, zorder=zorder)
     ax.add_patch(arr)
 
 # ------------------------------------------------------------------------------
-# 1. HEADER BANNER & MATHEMATICAL FORMULATION
+# 1. HEADER (High-Contrast, Large Typography)
 # ------------------------------------------------------------------------------
-ax.text(60, 97.5, "PROJECT ROAR: CURRICULUM KNOWLEDGE GRAPH & PREREQUISITE GATING",
-        fontsize=17, fontweight='bold', color=DARK_NAVY, ha='center', va='center', fontfamily=FONT_FAMILY)
-ax.text(60, 95.2, "36-Node Directed Acyclic Graph (DAG) Formalizing Prompt Engineering Competencies across Bloom's Taxonomy",
-        fontsize=11, color=SLATE_MED, ha='center', va='center', fontfamily=FONT_FAMILY)
-
-# Mathematical Invariant Box
-math_box = draw_card(ax, 60, 89.8, 114, 5.8, bg_color="#f8fafc", border_color=DARK_NAVY, corner_radius=1.2, lw=1.5)
-ax.text(12, 90.0, "MATHEMATICAL GATING INVARIANT:", fontsize=8.5, fontweight='bold', color=DARK_NAVY, ha='left', va='center')
-ax.text(52, 90.0, "Unlocked(v, C)  <===>  ALL u in Parents(v):  u in C,   where C = { u in V | S_final(u) >= theta_pass(u) }",
-        fontsize=10.0, fontweight='bold', color=INDIGO_PRIMARY if 'INDIGO_PRIMARY' in globals() else T2_COLOR, ha='center', va='center')
-ax.text(108, 90.0, "Anti-Skip Guarantee: 100%", fontsize=8.5, fontweight='bold', color=GREEN_SUCCESS, ha='right', va='center')
+ax.text(50, 97.4, "PROJECT ROAR: CURRICULUM KNOWLEDGE GRAPH & PREREQUISITE GATING",
+        fontsize=16.5, fontweight='bold', color=DARK_NAVY, ha='center', va='center', fontfamily=FONT_FAMILY)
+ax.text(50, 94.8, "Topological Competency DAG, Bloom's Taxonomy Alignment & Deterministic Anti-Skip Gating Engine",
+        fontsize=10.5, fontweight='bold', color=SLATE_MED, ha='center', va='center', fontfamily=FONT_FAMILY)
 
 # ------------------------------------------------------------------------------
-# 2. PREREQUISITE GATING MECHANISM LIVE SHOWCASE (Interactive Callout)
+# 2. MATHEMATICAL GATING INVARIANT BANNER
 # ------------------------------------------------------------------------------
-# Left Showcase: UNLOCKED NODE
-draw_card(ax, 30.0, 81.5, 54.0, 7.8, bg_color="#f0fdf4", border_color=GREEN_SUCCESS, corner_radius=1.2, lw=1.5)
-ax.text(6.0, 83.6, "SCENARIO A: PREREQUISITE GATE SATISFIED (NODE UNLOCKED)", fontsize=8.5, fontweight='bold', color=GREEN_SUCCESS, ha='left', va='center')
-ax.text(6.0, 81.2, "Target: Node 11 (Contextual Prompting)  |  Prerequisites: [Node 09, Node 10]", fontsize=8.0, color=SLATE_DARK, ha='left', va='center')
-ax.text(6.0, 79.2, "• Parent Node 09 (System Prompting): S_final = 82% [PASS >= 60%]  -->  [OK]\n• Parent Node 10 (Role Prompting):   S_final = 76% [PASS >= 60%]  -->  [OK]",
-        fontsize=7.2, color=SLATE_MED, ha='left', va='center')
-draw_badge(ax, 52.0, 81.5, "GATE OPEN", bg_color=GREEN_SUCCESS, text_color="white", w=6.8, h=2.6, font_size=8.0)
-
-# Right Showcase: LOCKED NODE
-draw_card(ax, 89.0, 81.5, 54.0, 7.8, bg_color="#fef2f2", border_color=RED_LOCK, corner_radius=1.2, lw=1.5)
-ax.text(65.0, 83.6, "SCENARIO B: PREREQUISITE GATE BLOCKED (NODE LOCKED)", fontsize=8.5, fontweight='bold', color=RED_LOCK, ha='left', va='center')
-ax.text(65.0, 81.2, "Target: Node 16 (ReAct Agentic Loops)  |  Prerequisites: [Node 13 (CoT)]", fontsize=8.0, color=SLATE_DARK, ha='left', va='center')
-ax.text(65.0, 79.2, "• Parent Node 13 (Chain-of-Thought): S_final = 52% [FAIL < 60%]   -->  [BLOCKED]\n• Access Denied: Student routed to Socratic Remediation before attempting ReAct",
-        fontsize=7.2, color=SLATE_MED, ha='left', va='center')
-draw_badge(ax, 111.0, 81.5, "LOCKED", bg_color=RED_LOCK, text_color="white", w=6.8, h=2.6, font_size=8.0)
+draw_card(ax, 50, 89.8, 96, 5.4, bg_color="#ffffff", border_color=DARK_NAVY, corner_radius=1.2, lw=2.0)
+ax.text(5.5, 89.8, "MATHEMATICAL GATING INVARIANT:", fontsize=10.0, fontweight='bold', color=DARK_NAVY, ha='left', va='center')
+ax.text(48.5, 89.8, r"$\mathbf{Unlocked}(v, \mathcal{C}) \Longleftrightarrow \forall u \in \mathbf{Parents}(v),\; u \in \mathcal{C}, \quad \text{where } \mathcal{C} = \{ u \in \mathcal{V} \mid S_{\mathrm{final}}(u) \geq \theta_{\mathrm{pass}}(u) \}$",
+        fontsize=10.2, fontweight='bold', color=T2_COLOR, ha='center', va='center')
+ax.text(94.5, 89.8, "Anti-Skip: 100% Enforced", fontsize=9.5, fontweight='bold', color=GREEN_SUCCESS, ha='right', va='center')
 
 # ------------------------------------------------------------------------------
-# 3. 4-TIER KNOWLEDGE GRAPH VISUALIZATION (Columns)
+# 3. DUAL OPERATIONAL GATING VERIFICATION (Side-by-Side Live Proofs)
 # ------------------------------------------------------------------------------
-# Tier Column Definitions
-col_w = 27.5
-tier_x = [16.0, 45.0, 74.0, 103.0]
+# Panel A: Unlocked Gate
+draw_card(ax, 27.5, 78.5, 48.0, 13.5, bg_color=GREEN_BG, border_color=GREEN_SUCCESS, corner_radius=1.4, lw=2.0)
+draw_badge(ax, 46.0, 83.2, "GATE OPEN", bg_color=GREEN_SUCCESS, text_color="white", w=6.8, h=2.5, font_size=9.2)
+ax.text(5.5, 83.2, "SCENARIO A: PREREQUISITE GATE SATISFIED", fontsize=10.5, fontweight='bold', color=GREEN_SUCCESS, ha='left', va='center')
+ax.text(5.5, 80.4, "Target Node: node_11 (Contextual Prompting & Delimiters)", fontsize=9.2, fontweight='bold', color=DARK_NAVY, ha='left', va='center')
+ax.text(5.5, 78.0, "• Parent 1: node_09 (System Prompting) -> Score: 82% [PASS >= 60%]  -->  [OK]", fontsize=8.6, color=SLATE_DARK, ha='left', va='center')
+ax.text(5.5, 75.8, "• Parent 2: node_10 (Role Prompting)   -> Score: 76% [PASS >= 60%]  -->  [OK]", fontsize=8.6, color=SLATE_DARK, ha='left', va='center')
+ax.text(5.5, 73.4, "VERDICT: All parents satisfied in LearnerHistory -> Access Granted to Lesson/Quiz", fontsize=8.6, fontweight='bold', color=GREEN_SUCCESS, ha='left', va='center')
 
-tier_meta = [
-    {"name": "TIER 1: FOUNDATIONS & SYNTAX", "bloom": "Remember / Understand", "thresh": "Pass >= 50%", "weight": "W: 1.0 - 1.5", "color": T1_COLOR, "bg": T1_BG},
-    {"name": "TIER 2: TECHNIQUES & APPLIED", "bloom": "Apply / Practice", "thresh": "Pass >= 60%", "weight": "W: 1.8 - 2.8", "color": T2_COLOR, "bg": T2_BG},
-    {"name": "TIER 3: OUTPUT ENG. & SCHEMAS", "bloom": "Analyze / Formulate", "thresh": "Pass >= 70%", "weight": "W: 3.0 - 3.5", "color": T3_COLOR, "bg": T3_BG},
-    {"name": "TIER 4: REASONING & CAPSTONE", "bloom": "Evaluate / Create", "thresh": "Pass >= 75%", "weight": "W: 3.8 - 4.0", "color": T4_COLOR, "bg": T4_BG},
+# Panel B: Locked Gate (Anti-Skip)
+draw_card(ax, 72.5, 78.5, 48.0, 13.5, bg_color=RED_BG, border_color=RED_LOCK, corner_radius=1.4, lw=2.0)
+draw_badge(ax, 91.0, 83.2, "LOCKED", bg_color=RED_LOCK, text_color="white", w=6.5, h=2.5, font_size=9.2)
+ax.text(50.5, 83.2, "SCENARIO B: PREREQUISITE GATE BLOCKED (ANTI-SKIP)", fontsize=10.5, fontweight='bold', color=RED_LOCK, ha='left', va='center')
+ax.text(50.5, 80.4, "Target Node: node_16 (ReAct Agentic Loops)", fontsize=9.2, fontweight='bold', color=DARK_NAVY, ha='left', va='center')
+ax.text(50.5, 78.0, "• Required Parent: node_13 (Chain-of-Thought) -> Score: 52% [FAIL < 60%]", fontsize=8.6, color=RED_LOCK, fontweight='bold', ha='left', va='center')
+ax.text(50.5, 75.8, "• Security Action: TutorOrchestrator rejects node dispatch (Zero Bypass)", fontsize=8.6, color=SLATE_DARK, ha='left', va='center')
+ax.text(50.5, 73.4, "VERDICT: Locked -> Student routed to Socratic Hint Remediation on Node 13", fontsize=8.6, fontweight='bold', color=RED_LOCK, ha='left', va='center')
+
+# ------------------------------------------------------------------------------
+# 4. CORE TOPOLOGICAL BACKBONE & BLOOM TAXONOMY PROGRESSION (Milestones)
+# ------------------------------------------------------------------------------
+# Container for Milestone DAG
+draw_card(ax, 50, 52.2, 96, 35.0, bg_color="#ffffff", border_color=SLATE_DARK, corner_radius=1.8, lw=2.2)
+ax.text(5.5, 67.8, "CORE TOPOLOGICAL PROGRESSION BACKBONE & BLOOM COGNITIVE TIERS",
+        fontsize=11.5, fontweight='bold', color=DARK_NAVY, ha='left', va='center')
+
+# 4 Tier Column Headers
+col_x = [15.5, 38.5, 61.5, 84.5]
+col_w = 21.0
+
+tier_info = [
+    ("TIER 1: FOUNDATIONS", "Remember / Understand", "Pass >= 50%", "W: 1.0 - 1.5", T1_COLOR, T1_BG),
+    ("TIER 2: TECHNIQUES", "Apply & Practice", "Pass >= 60%", "W: 1.8 - 2.8", T2_COLOR, T2_BG),
+    ("TIER 3: OUTPUT & SCHEMAS", "Analyze & Formulate", "Pass >= 70%", "W: 3.0 - 3.5", T3_COLOR, T3_BG),
+    ("TIER 4: REASONING & CAPSTONE", "Evaluate & Create", "Pass >= 75%", "W: 3.8 - 4.0", T4_COLOR, T4_BG),
 ]
 
-# Draw Column Banners
-for i, tm in enumerate(tier_meta):
-    cx = tier_x[i]
-    draw_card(ax, cx, 73.0, col_w, 5.0, bg_color=tm["bg"], border_color=tm["color"], corner_radius=1.0, lw=1.6)
-    ax.text(cx, 74.3, tm["name"], fontsize=8.5, fontweight='bold', color=tm["color"], ha='center', va='center')
-    ax.text(cx, 72.2, f"Bloom: {tm['bloom']}  |  {tm['thresh']}  |  {tm['weight']}", fontsize=7.0, color=SLATE_MED, ha='center', va='center')
+for idx, (tname, bloom, pthresh, wrange, tcol, tbg) in enumerate(tier_info):
+    cx = col_x[idx]
+    draw_card(ax, cx, 63.8, col_w, 5.0, bg_color=tbg, border_color=tcol, corner_radius=1.0, lw=1.6)
+    ax.text(cx, 65.0, tname, fontsize=9.2, fontweight='bold', color=tcol, ha='center', va='center')
+    ax.text(cx, 62.8, f"{bloom} | {pthresh} | {wrange}", fontsize=7.5, fontweight='bold', color=SLATE_MED, ha='center', va='center')
 
-# Node definitions per tier with layout coordinates
-# Node dict: id, title, weight, prereqs, x, y
-node_cards = {}
-
-tier1_nodes = [
-    ("node_01", "01. Introduction to Prompt Eng.", 1.0, [], 16.0, 66.5),
-    ("node_03", "03. Output Length (max_tokens)", 1.2, ["node_01"], 16.0, 59.8),
-    ("node_04", "04. Sampling: Temperature", 1.5, ["node_03"], 16.0, 53.1),
-    ("node_07", "07. Zero-Shot Direct Instruction", 1.2, ["node_01"], 16.0, 46.4),
-    ("node_24", "24. Simplicity in Prompt Design", 1.3, ["node_07"], 16.0, 39.7),
-    ("node_25", "25. Specific Output Directives", 1.4, ["node_07"], 16.0, 33.0),
-    ("node_27", "27. Context Window & Truncation", 1.5, ["node_03"], 16.0, 26.3),
-    ("node_35", "35. Collaborative Prompt Reviews", 1.2, ["node_01"], 16.0, 19.6),
-    ("node_37", "37. Prompt Versioning & Logs", 1.3, ["node_01"], 16.0, 12.9),
+# Milestone Cards Data: (col_idx, y, node_id, title, prereq_text, weight, color, bg)
+milestones = [
+    # Tier 1
+    (0, 56.5, "node_01", "01. Prompt Eng. Foundations", "Roots / None", 1.0, T1_COLOR, T1_BG),
+    (0, 48.0, "node_04", "04. Sampling: Temperature", "Requires: node_03", 1.5, T1_COLOR, T1_BG),
+    (0, 39.5, "node_07", "07. Zero-Shot Directives", "Requires: node_01", 1.2, T1_COLOR, T1_BG),
+    
+    # Tier 2
+    (1, 56.5, "node_05", "05. Top-K & Top-P Sampling", "Requires: node_04", 2.0, T2_COLOR, T2_BG),
+    (1, 48.0, "node_08", "08. Few-Shot In-Context", "Requires: node_07", 2.0, T2_COLOR, T2_BG),
+    (1, 39.5, "node_11", "11. Context & Delimiters", "Requires: node_09, 10", 2.2, T2_COLOR, T2_BG),
+    
+    # Tier 3
+    (2, 56.5, "node_13", "13. Chain-of-Thought (CoT)", "Requires: node_08", 2.8, T3_COLOR, T3_BG),
+    (2, 48.0, "node_28", "28. Variables & Templates", "Requires: node_07", 2.2, T3_COLOR, T3_BG),
+    (2, 39.5, "node_34", "34. Pydantic Schemas", "Requires: node_33", 3.2, T3_COLOR, T3_BG),
+    
+    # Tier 4
+    (3, 56.5, "node_15", "15. Tree-of-Thoughts (ToT)", "Requires: node_13", 3.8, T4_COLOR, T4_BG),
+    (3, 48.0, "node_16", "16. ReAct Agentic Loops", "Requires: node_13", 4.0, T4_COLOR, T4_BG),
+    (3, 39.5, "capstone", "36. Capstone Examination", "Requires: node_16, 34", 4.0, T4_COLOR, T4_BG),
 ]
 
-tier2_nodes = [
-    ("node_05", "05. Sampling: Top-K & Top-P", 2.0, ["node_04"], 45.0, 66.5),
-    ("node_06", "06. Unified Sampling Dynamics", 2.2, ["node_04", "node_05"], 45.0, 59.8),
-    ("node_08", "08. One-Shot & Few-Shot Learning", 2.0, ["node_07"], 45.0, 53.1),
-    ("node_09", "09. System Behavioral Prompting", 2.0, ["node_07"], 45.0, 46.4),
-    ("node_10", "10. Role & Persona Steering", 1.8, ["node_07"], 45.0, 39.7),
-    ("node_11", "11. Contextual Grounding & Delimiters", 2.2, ["node_09", "node_10"], 45.0, 33.0),
-    ("node_12", "12. Step-Back Abstraction", 2.5, ["node_07"], 45.0, 26.3),
-    ("node_18", "18. Code Generation Prompts", 2.4, ["node_07"], 45.0, 19.6),
-    ("node_28", "28. Variables & Templates", 2.2, ["node_07"], 45.0, 12.9),
-]
+m_coords = {}
+card_mw = 20.0
+card_mh = 6.0
 
-tier3_nodes = [
-    ("node_13", "13. Chain-of-Thought (CoT)", 2.8, ["node_08"], 74.0, 66.5),
-    ("node_26", "26. Positive vs Negative Bounds", 2.0, ["node_25"], 74.0, 59.8),
-    ("node_29", "29. Format Robustness & Noise", 2.0, ["node_28"], 74.0, 53.1),
-    ("node_32", "32. Experiment Output Formats", 2.0, ["node_25"], 74.0, 46.4),
-    ("node_33", "33. JSON Repair & Format Fixing", 2.5, ["node_32"], 74.0, 39.7),
-    ("node_34", "34. Pydantic & Schema Enforcement", 3.2, ["node_33"], 74.0, 33.0),
-    ("node_19", "19. Code Explanation & ASTs", 2.2, ["node_07"], 74.0, 26.3),
-    ("node_20", "20. Polyglot Code Translation", 2.5, ["node_18"], 74.0, 19.6),
-    ("node_36", "36. CoT Best Practices & Traps", 2.6, ["node_13"], 74.0, 12.9),
-]
+for c_idx, my, nid, title, prereq, w, col, bg in milestones:
+    mx = col_x[c_idx]
+    m_coords[nid] = (mx, my)
+    draw_card(ax, mx, my, card_mw, card_mh, bg_color=bg, border_color=col, corner_radius=1.0, lw=1.8)
+    # Title
+    ax.text(mx - card_mw/2 + 0.8, my + 1.3, title, fontsize=9.2, fontweight='bold', color=DARK_NAVY, ha='left', va='center')
+    # Prerequisites
+    ax.text(mx - card_mw/2 + 0.8, my - 1.2, prereq, fontsize=7.8, color=SLATE_MED, ha='left', va='center')
+    # Weight Badge
+    draw_badge(ax, mx + card_mw/2 - 2.5, my, f"W:{w}", bg_color=col, text_color="white", w=3.8, h=2.0, font_size=8.0)
 
-tier4_nodes = [
-    ("node_14", "14. Self-Consistency Consensus", 3.2, ["node_13"], 103.0, 66.5),
-    ("node_15", "15. Tree-of-Thoughts (ToT)", 3.8, ["node_13"], 103.0, 59.8),
-    ("node_16", "16. ReAct Agentic Loops", 4.0, ["node_13"], 103.0, 53.1),
-    ("node_17", "17. Automatic Prompt Opt (APO)", 3.5, ["node_08", "node_13"], 103.0, 46.4),
-    ("node_21", "21. Debugging & Vulnerability Review", 3.2, ["node_18"], 103.0, 39.7),
-    ("node_22", "22. Multimodal Vision Prompting", 3.4, ["node_07", "node_11"], 103.0, 33.0),
-    ("node_30", "30. Balanced Few-Shot Sampling", 3.0, ["node_08"], 103.0, 26.3),
-    ("node_31", "31. Model Update Regression Test", 2.2, ["node_07"], 103.0, 19.6),
-    ("capstone", "36. Summative Capstone Exam", 4.0, ["node_16", "node_34"], 103.0, 12.9),
-]
+# Connect Milestone Dependencies with Clean Bold Arrows
+# 1. Sampling Dynamics: node_04 -> node_05
+draw_arrow(ax, (m_coords["node_04"][0] + card_mw/2, m_coords["node_04"][1]),
+               (m_coords["node_05"][0] - card_mw/2, m_coords["node_05"][1]), color=T1_COLOR, lw=2.0)
 
-all_nodes_data = [
-    (tier1_nodes, T1_COLOR, T1_BG),
-    (tier2_nodes, T2_COLOR, T2_BG),
-    (tier3_nodes, T3_COLOR, T3_BG),
-    (tier4_nodes, T4_COLOR, T4_BG),
-]
+# 2. Instruction to Few-Shot: node_07 -> node_08
+draw_arrow(ax, (m_coords["node_07"][0] + card_mw/2, m_coords["node_07"][1]),
+               (m_coords["node_08"][0] - card_mw/2, m_coords["node_08"][1]), color=T1_COLOR, lw=2.0)
 
-card_w = 26.0
-card_h = 4.8
+# 3. Instruction to Context: node_07 -> node_11
+draw_arrow(ax, (m_coords["node_07"][0] + card_mw/2, m_coords["node_07"][1] - 0.5),
+               (m_coords["node_11"][0] - card_mw/2, m_coords["node_11"][1] - 0.5), color=T1_COLOR, lw=1.8)
 
-# Draw Cards
-for nodes, color, bg in all_nodes_data:
-    for nid, title, weight, prereqs, x, y in nodes:
-        node_cards[nid] = (x, y, color, prereqs)
-        # Background card
-        draw_card(ax, x, y, card_w, card_h, bg_color=bg, border_color=color, corner_radius=0.9, lw=1.2)
-        # Node Title
-        ax.text(x - card_w/2 + 1.2, y + 0.6, title, fontsize=7.6, fontweight='bold', color=DARK_NAVY, ha='left', va='center')
-        # Prerequisites text
-        prereq_str = "None (Root)" if not prereqs else f"Requires: {', '.join(prereqs)}"
-        ax.text(x - card_w/2 + 1.2, y - 1.0, prereq_str, fontsize=6.2, color=SLATE_MED, ha='left', va='center')
-        # Weight Badge
-        badge_bg = GREEN_SUCCESS if weight >= 3.8 else (T3_COLOR if weight >= 3.0 else (T2_COLOR if weight >= 2.0 else T1_COLOR))
-        draw_badge(ax, x + card_w/2 - 2.5, y, f"W: {weight}", bg_color=badge_bg, text_color="white", w=4.2, h=2.2, font_size=6.8)
+# 4. Few-Shot to CoT: node_08 -> node_13
+draw_arrow(ax, (m_coords["node_08"][0] + card_mw/2, m_coords["node_08"][1]),
+               (m_coords["node_13"][0] - card_mw/2, m_coords["node_13"][1]), color=T2_COLOR, lw=2.2)
+
+# 5. CoT to ToT: node_13 -> node_15
+draw_arrow(ax, (m_coords["node_13"][0] + card_mw/2, m_coords["node_13"][1]),
+               (m_coords["node_15"][0] - card_mw/2, m_coords["node_15"][1]), color=T3_COLOR, lw=2.0)
+
+# 6. CoT to ReAct: node_13 -> node_16
+draw_arrow(ax, (m_coords["node_13"][0] + card_mw/2, m_coords["node_13"][1] - 1.0),
+               (m_coords["node_16"][0] - card_mw/2, m_coords["node_16"][1]), color=T3_COLOR, lw=2.2)
+
+# 7. ReAct to Capstone: node_16 -> Capstone
+draw_arrow(ax, (m_coords["node_16"][0], m_coords["node_16"][1] - card_mh/2),
+               (m_coords["capstone"][0], m_coords["capstone"][1] + card_mh/2), color=T4_COLOR, lw=2.2)
+
+# 8. Schema to Capstone: node_34 -> Capstone
+draw_arrow(ax, (m_coords["node_34"][0] + card_mw/2, m_coords["node_34"][1]),
+               (m_coords["capstone"][0] - card_mw/2, m_coords["capstone"][1]), color=T3_COLOR, lw=2.2)
 
 # ------------------------------------------------------------------------------
-# 4. DRAW PREREQUISITE DIRECTED EDGES (Cleanly Routed)
+# 5. COMPLETE 36-NODE CURRICULUM KNOWLEDGE BASE (Directory Grid)
 # ------------------------------------------------------------------------------
-# Sample critical cross-tier dependencies
-cross_edges = [
-    ("node_01", "node_03"),
-    ("node_03", "node_04"),
-    ("node_04", "node_05"),
-    ("node_05", "node_06"),
-    ("node_01", "node_07"),
-    ("node_07", "node_08"),
-    ("node_07", "node_09"),
-    ("node_07", "node_10"),
-    ("node_09", "node_11"),
-    ("node_10", "node_11"),
-    ("node_08", "node_13"),
-    ("node_13", "node_14"),
-    ("node_13", "node_15"),
-    ("node_13", "node_16"),
-    ("node_07", "node_18"),
-    ("node_18", "node_20"),
-    ("node_18", "node_21"),
-    ("node_25", "node_32"),
-    ("node_32", "node_33"),
-    ("node_33", "node_34"),
-    ("node_34", "capstone"),
-    ("node_16", "capstone")
+draw_card(ax, 50, 16.5, 96, 27.0, bg_color="#ffffff", border_color=DARK_NAVY, corner_radius=1.6, lw=2.0)
+ax.text(5.5, 28.5, "FULL 36-NODE CURRICULUM TOPOLOGY (Single Source of Truth: data/curriculum_tree.json)",
+        fontsize=11.0, fontweight='bold', color=DARK_NAVY, ha='left', va='center')
+
+# 4 Columns of Node Text
+tier_lists = [
+    # Tier 1 (10 nodes)
+    ("FOUNDATIONS & SYNTAX (10 Nodes)", T1_COLOR, [
+        "node_01: Intro to Prompt Eng. (W:1.0)",
+        "node_03: Output Length / max_tokens (W:1.2)",
+        "node_04: Temperature Dynamics (W:1.5)",
+        "node_07: Zero-Shot Directives (W:1.2)",
+        "node_23: Concrete Demonstrations (W:1.4)",
+        "node_24: Design with Simplicity (W:1.3)",
+        "node_25: Specific Output Directives (W:1.4)",
+        "node_27: Context Window Limits (W:1.5)",
+        "node_35: Collaborative Reviews (W:1.2)",
+        "node_37: Prompt Versioning & Logs (W:1.3)"
+    ]),
+    # Tier 2 Part 1
+    ("APPLIED TECHNIQUES (9 Nodes)", T2_COLOR, [
+        "node_05: Top-K & Top-P Sampling (W:2.0)",
+        "node_06: Unified Sampling Dynamics (W:2.2)",
+        "node_08: One-Shot & Few-Shot (W:2.0)",
+        "node_09: System Prompting (W:2.0)",
+        "node_10: Role & Persona Steering (W:1.8)",
+        "node_11: Contextual Grounding (W:2.2)",
+        "node_12: Step-Back Abstraction (W:2.5)",
+        "node_18: Code Generation Prompts (W:2.4)",
+        "node_19: Code Explanation & ASTs (W:2.2)",
+    ]),
+    # Tier 2 Part 2 & Tier 3
+    ("ADVANCED TECHNIQUES (9 Nodes)", T3_COLOR, [
+        "node_20: Polyglot Code Translation (W:2.5)",
+        "node_26: Instructions vs Constraints (W:2.0)",
+        "node_28: Variables & Templates (W:2.2)",
+        "node_29: Input Formats & Noise (W:2.0)",
+        "node_31: Model Update Adaptation (W:2.2)",
+        "node_32: Experiment Output Formats (W:2.0)",
+        "node_33: JSON Repair & Recovery (W:2.5)",
+        "node_36: Chain-of-Thought Traps (W:2.6)",
+        "node_13: Chain-of-Thought (CoT) (W:2.8)"
+    ]),
+    # Tier 3 Expert / Capstone (8 nodes)
+    ("EXPERT REASONING & CAPSTONE (8 Nodes)", T4_COLOR, [
+        "node_14: Self-Consistency Consensus (W:3.2)",
+        "node_15: Tree-of-Thoughts (ToT) (W:3.8)",
+        "node_16: ReAct Agentic Loops (W:4.0)",
+        "node_17: Automatic Prompt Opt (APO) (W:3.5)",
+        "node_21: Vulnerability Review (W:3.2)",
+        "node_22: Multimodal Vision Prompts (W:3.4)",
+        "node_30: Balanced Few-Shot Mix (W:3.0)",
+        "node_34: Pydantic Schema Guards (W:3.2)"
+    ])
 ]
 
-for src_id, dst_id in cross_edges:
-    if src_id in node_cards and dst_id in node_cards:
-        sx, sy, scolor, _ = node_cards[src_id]
-        dx, dy, dcolor, _ = node_cards[dst_id]
-        
-        # If in adjacent columns, draw clean arrow from right edge of src to left edge of dst
-        if abs(dx - sx) > 10.0:
-            p1 = (sx + card_w/2, sy)
-            p2 = (dx - card_w/2, dy)
-            draw_arrow(ax, p1, p2, color=scolor, lw=1.2)
-        else:
-            # Vertical connection in same column
-            p1 = (sx, sy - card_h/2)
-            p2 = (dx, dy + card_h/2)
-            draw_arrow(ax, p1, p2, color=scolor, lw=1.2)
+for c_idx, (t_title, t_col, items) in enumerate(tier_lists):
+    tx = 6.0 + c_idx * 23.5
+    ax.text(tx, 26.2, t_title, fontsize=8.8, fontweight='bold', color=t_col, ha='left', va='center')
+    for row_idx, item in enumerate(items):
+        iy = 23.8 - row_idx * 2.2
+        ax.text(tx, iy, f"• {item}", fontsize=7.6, color=DARK_NAVY, ha='left', va='center')
 
-# ------------------------------------------------------------------------------
-# 5. FOOTER LEGEND & SPECIFICATIONS
-# ------------------------------------------------------------------------------
-draw_card(ax, 60, 4.2, 114, 4.6, bg_color="#f8fafc", border_color=DARK_NAVY, corner_radius=1.0, lw=1.2)
-ax.text(12, 4.2, "CURRICULUM SPECIFICATIONS:", fontsize=8.0, fontweight='bold', color=DARK_NAVY, ha='left', va='center')
-ax.text(32, 4.2, "• Total Nodes: 36 Leaf Competencies", fontsize=7.5, color=SLATE_DARK, ha='left', va='center')
-ax.text(54, 4.2, "• Cognitive Weights: W in [1.0, 4.0]", fontsize=7.5, color=SLATE_DARK, ha='left', va='center')
-ax.text(76, 4.2, "• Prerequisite Gating: 100% DAG Enforced", fontsize=7.5, color=GREEN_SUCCESS, fontweight='bold', ha='left', va='center')
-ax.text(102, 4.2, "• Serialization: data/curriculum_tree.json", fontsize=7.5, color=SLATE_MED, ha='left', va='center')
-
-# Output Path
+# Save print-optimized diagram
 out_path = DIAGRAMS_DIR / "curriculum_knowledge_graph_gating.png"
 plt.tight_layout()
 plt.savefig(out_path, dpi=300, bbox_inches='tight', facecolor=BG_COLOR)
 plt.close()
 
-print(f"✅ Curriculum Knowledge Graph Diagram successfully generated at: {out_path}")
+print(f"✅ Print-Optimized Curriculum Knowledge Graph Diagram successfully generated at: {out_path}")
