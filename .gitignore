@@ -27,3 +27,8 @@ htmlcov/
 
 # Private AI Context
 PROJECT_ROAR_CONTEXT.md
+
+# Presentation Files & Generator
+*.pptx
+*.key
+scripts/build_defense_presentation.py
