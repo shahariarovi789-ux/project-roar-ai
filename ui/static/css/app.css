@@ -1496,36 +1496,37 @@ main {
 }
 
 #view-container {
-  flex: 1 1 auto;
+  flex: 1 1 0%;
   min-height: 0;
-  height: calc(100vh - 56px);
-  max-height: calc(100vh - 56px);
+  height: 100%;
+  max-height: none;
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: scroll !important;
   overflow-x: hidden;
-  padding: 24px 32px 80px;
+  padding: 24px 32px 120px;
   box-sizing: border-box;
   scroll-behavior: smooth;
   overscroll-behavior-y: contain;
   -webkit-overflow-scrolling: touch;
   outline: none;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.22) rgba(13, 18, 31, 0.7);
+  scrollbar-color: rgba(245, 158, 11, 0.45) rgba(13, 18, 31, 0.85);
 }
 
 #view-container::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
+  display: block;
 }
 
 #view-container::-webkit-scrollbar-track {
-  background: rgba(13, 18, 31, 0.7);
-  border-left: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(13, 18, 31, 0.85);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 #view-container::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.22);
-  border-radius: 6px;
-  border: 2px solid rgba(13, 18, 31, 0.7);
+  background: rgba(245, 158, 11, 0.4);
+  border-radius: 8px;
+  border: 2px solid rgba(13, 18, 31, 0.85);
 }
 
 #view-container::-webkit-scrollbar-thumb:hover {
@@ -3608,6 +3609,182 @@ body.in-workspace {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-top: 6px;
+}
+
+.lesson-title-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.lesson-heading {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #FFFFFF;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.lesson-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+}
+
+.lesson-cat-badge {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--c-accent);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.lesson-breadcrumb-sep {
+  color: var(--c-text-4);
+  font-size: 13px;
+}
+
+.lesson-path-label {
+  color: var(--c-text-2);
+  font-weight: 600;
+}
+
+.lesson-sub-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--r-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--c-border);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--c-text-2);
+  box-sizing: border-box;
+}
+
+.meta-pill svg {
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px !important;
+  max-width: 14px !important;
+  max-height: 14px !important;
+  flex-shrink: 0 !important;
+  color: var(--c-accent);
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.meta-pill.tier-pill {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--c-accent);
+  font-weight: 700;
+}
+
+/* Posh Button Design Components */
+.btn-posh-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: var(--r-sm);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--c-border-md);
+  color: var(--c-text-2);
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.btn-posh-ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--c-border-hi);
+  color: var(--c-text);
+  transform: translateY(-1px);
+}
+
+.btn-posh-ghost:active {
+  transform: scale(0.98);
+}
+
+.btn-posh-ghost svg {
+  width: 14px !important;
+  height: 14px !important;
+  min-width: 14px !important;
+  max-width: 14px !important;
+  max-height: 14px !important;
+  flex-shrink: 0 !important;
+  color: var(--c-accent);
+}
+
+.btn-posh-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 24px;
+  border-radius: var(--r-sm);
+  background: var(--c-accent);
+  border: 1px solid var(--c-accent);
+  color: #06080F;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 160ms cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.25);
+  user-select: none;
+}
+
+.btn-posh-primary:hover {
+  background: var(--c-accent-hover);
+  border-color: var(--c-accent-hover);
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.35);
+}
+
+.btn-posh-primary:active {
+  transform: scale(0.975);
+}
+
+.btn-posh-primary.lg {
+  padding: 12px 28px;
+  font-size: 14px;
+}
+
+.btn-posh-primary svg {
+  width: 15px !important;
+  height: 15px !important;
+  min-width: 15px !important;
+  max-width: 15px !important;
+  max-height: 15px !important;
+  flex-shrink: 0 !important;
+  transition: transform 160ms ease;
+}
+
+.btn-posh-primary:hover svg.arrow-icon {
+  transform: translateX(3px);
 }
 
 .quiz-guided-banner {
@@ -3729,6 +3906,12 @@ body.in-workspace {
 }
 
 .btn-q-hint svg {
+  width: 13px !important;
+  height: 13px !important;
+  min-width: 13px !important;
+  max-width: 13px !important;
+  max-height: 13px !important;
+  flex-shrink: 0 !important;
   color: var(--c-accent);
 }
 

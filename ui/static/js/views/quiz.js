@@ -56,13 +56,13 @@ export function renderQuizView(container, { quizData, onSubmitAnswer, onRequestH
           <div class="quiz-telemetry-cluster">
             <div class="quiz-timer-pill" id="quiz-timer-pill" title="Time elapsed">
               <span class="quiz-timer-dot" id="quiz-timer-dot"></span>
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:13px;height:13px;min-width:13px;flex-shrink:0;"><circle cx="12" cy="12" r="10" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 6v6l4 2"/></svg>
               <span id="quiz-timer" class="quiz-timer-val">00:00</span>
               <span class="quiz-timer-limit">/ ${Math.round(timeBudget)}s</span>
             </div>
 
             <div class="quiz-hints-pill" title="Available Socratic hints">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:13px;height:13px;min-width:13px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
               <span>Hints:</span>
               <span id="hint-counter" class="quiz-hint-val">0/3</span>
             </div>
@@ -74,12 +74,12 @@ export function renderQuizView(container, { quizData, onSubmitAnswer, onRequestH
             <h1 class="lesson-heading">${quizData.topic_title}</h1>
             <div class="lesson-sub-meta">
               <span class="meta-pill">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                ${questions.length} Socratic Questions
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:14px;height:14px;min-width:14px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                <span>${questions.length} Socratic Questions</span>
               </span>
               <span class="meta-pill">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Pass Threshold: ${Math.round((quizData.passing_threshold || 0.60) * 100)}%
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:14px;height:14px;min-width:14px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>Pass Threshold: ${Math.round((quizData.passing_threshold || 0.60) * 100)}%</span>
               </span>
             </div>
           </div>
@@ -89,7 +89,7 @@ export function renderQuizView(container, { quizData, onSubmitAnswer, onRequestH
       <!-- Guided mode callout -->
       ${quizData.guided_mode_active ? `
         <div class="quiz-guided-banner">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:18px;height:18px;min-width:18px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
           <div>
             <strong>Guided Scaffolding Active.</strong> The Socratic agent has prepared adaptive hints. Click the hint button on any question if you need conceptual clues.
           </div>
@@ -113,7 +113,7 @@ export function renderQuizView(container, { quizData, onSubmitAnswer, onRequestH
               </div>
               <div class="quiz-card-header-right">
                 <button type="button" class="btn-q-hint btn-posh-ghost" data-qidx="${idx + 1}" title="Request Socratic clue for Question ${idx + 1}">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:13px;height:13px;min-width:13px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
                   <span>Hint for Q${idx + 1}</span>
                 </button>
                 <span class="quiz-type-badge ${q.type === 'mcq' || q.options ? 'type-mcq' : 'type-writing'}">
@@ -162,12 +162,12 @@ export function renderQuizView(container, { quizData, onSubmitAnswer, onRequestH
         <!-- Bottom Action Bar -->
         <footer class="quiz-action-bar">
           <button type="button" id="btn-regen-quiz" class="btn-posh-ghost" title="Formulate fresh question set">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:14px;height:14px;min-width:14px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
             <span>Regenerate Challenge</span>
           </button>
           <button type="submit" id="btn-submit-quiz" class="btn-posh-primary lg">
             <span>Submit for Socratic Evaluation</span>
-            <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:14px;height:14px;min-width:14px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </button>
         </footer>
       </form>
@@ -313,7 +313,7 @@ export function renderQuizView(container, { quizData, onSubmitAnswer, onRequestH
     } catch (err) {
       alert('Evaluation failed: ' + err.message);
       submitBtn.disabled = false;
-      submitBtn.innerHTML = `<span>Submit for Socratic Evaluation</span><svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
+      submitBtn.innerHTML = `<span>Submit for Socratic Evaluation</span><svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:14px;height:14px;min-width:14px;flex-shrink:0;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>`;
     }
   };
 }

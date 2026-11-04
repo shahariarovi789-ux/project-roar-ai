@@ -5,17 +5,17 @@
  * real-time agent telemetry, and session state.
  */
 
-import { showToast } from './components/toast.js?v=11.0';
-import { renderSidebarCurriculum } from './components/sidebar.js?v=11.0';
-import { renderHomeView } from './views/home.js?v=11.0';
-import { renderLoginView } from './views/login.js?v=11.0';
-import { renderOnboardingView } from './views/onboarding.js?v=11.0';
-import { renderLessonView } from './views/lesson.js?v=11.0';
-import { renderQuizView } from './views/quiz.js?v=11.0';
-import { renderScoreCardView } from './views/score_card.js?v=11.0';
-import { renderProgressView } from './views/progress.js?v=11.0';
-import { renderSettingsView } from './views/settings.js?v=11.0';
-import { renderFinalExamView } from './views/final_exam.js?v=11.0';
+import { showToast } from './components/toast.js?v=12.0';
+import { renderSidebarCurriculum } from './components/sidebar.js?v=12.0';
+import { renderHomeView } from './views/home.js?v=12.0';
+import { renderLoginView } from './views/login.js?v=12.0';
+import { renderOnboardingView } from './views/onboarding.js?v=12.0';
+import { renderLessonView } from './views/lesson.js?v=12.0';
+import { renderQuizView } from './views/quiz.js?v=12.0';
+import { renderScoreCardView } from './views/score_card.js?v=12.0';
+import { renderProgressView } from './views/progress.js?v=12.0';
+import { renderSettingsView } from './views/settings.js?v=12.0';
+import { renderFinalExamView } from './views/final_exam.js?v=12.0';
 
 class AppState {
   constructor() {
@@ -34,6 +34,8 @@ class AppState {
       this.currentView = this.token ? 'progress' : 'login';
     } else if (viewParam === 'exam' || hash === '#exam') {
       this.currentView = this.token ? 'exam' : 'login';
+    } else if (viewParam === 'quiz' || hash === '#quiz') {
+      this.currentView = this.token ? 'quiz' : 'login';
     } else if (viewParam === 'login' || hash === '#login') {
       this.currentView = 'login';
     } else {
@@ -131,7 +133,8 @@ async function quickDemoLogin() {
 
     state.setAuth(data.access_token, data.user_id, data.username);
     showToast('Welcome to Project ROAR Demo Workspace', 'success');
-    state.currentView = 'study';
+    const params = new URLSearchParams(window.location.search);
+    state.currentView = (params.get('view') === 'quiz' || window.location.hash === '#quiz') ? 'quiz' : 'study';
     renderApp();
   } catch (err) {
     showToast('Demo access error: ' + err.message, 'error');
@@ -440,9 +443,19 @@ async function renderApp() {
           state.session = updatedSession;
           state.selectedNodeId = updatedSession.current_node.id;
           showToast('Onboarding completed. Starting Lesson 1…', 'success');
-          loadStudyNode(state.selectedNodeId);
+          if (state.currentView === 'quiz') {
+      startQuizFlow(false, state.selectedNodeId);
+      return;
+    }
+
+    loadStudyNode(state.selectedNodeId);
         }
       });
+      return;
+    }
+
+    if (state.currentView === 'quiz') {
+      startQuizFlow(false, state.selectedNodeId);
       return;
     }
 
