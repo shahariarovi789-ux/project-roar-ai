@@ -5,17 +5,17 @@
  * real-time agent telemetry, and session state.
  */
 
-import { showToast } from './components/toast.js?v=12.0';
-import { renderSidebarCurriculum } from './components/sidebar.js?v=12.0';
-import { renderHomeView } from './views/home.js?v=12.0';
-import { renderLoginView } from './views/login.js?v=12.0';
-import { renderOnboardingView } from './views/onboarding.js?v=12.0';
-import { renderLessonView } from './views/lesson.js?v=12.0';
-import { renderQuizView } from './views/quiz.js?v=12.0';
-import { renderScoreCardView } from './views/score_card.js?v=12.0';
-import { renderProgressView } from './views/progress.js?v=12.0';
-import { renderSettingsView } from './views/settings.js?v=12.0';
-import { renderFinalExamView } from './views/final_exam.js?v=12.0';
+import { showToast } from './components/toast.js?v=13.0';
+import { renderSidebarCurriculum } from './components/sidebar.js?v=13.0';
+import { renderHomeView } from './views/home.js?v=13.0';
+import { renderLoginView } from './views/login.js?v=13.0';
+import { renderOnboardingView } from './views/onboarding.js?v=13.0';
+import { renderLessonView } from './views/lesson.js?v=13.0';
+import { renderQuizView } from './views/quiz.js?v=13.0';
+import { renderScoreCardView } from './views/score_card.js?v=13.0';
+import { renderProgressView } from './views/progress.js?v=13.0';
+import { renderSettingsView } from './views/settings.js?v=13.0';
+import { renderFinalExamView } from './views/final_exam.js?v=13.0';
 
 class AppState {
   constructor() {

@@ -1483,7 +1483,8 @@ aside#sidebar-container {
   z-index: 20;
 }
 
-main {
+#workspace-main,
+#app-root > main {
   flex: 1;
   min-width: 0;
   display: flex;
@@ -1514,23 +1515,24 @@ main {
 }
 
 #view-container::-webkit-scrollbar {
-  width: 12px;
+  -webkit-appearance: none;
+  width: 14px;
   display: block;
 }
 
 #view-container::-webkit-scrollbar-track {
-  background: rgba(13, 18, 31, 0.85);
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  background: #090D18;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #view-container::-webkit-scrollbar-thumb {
-  background: rgba(245, 158, 11, 0.4);
+  background: #F59E0B;
   border-radius: 8px;
-  border: 2px solid rgba(13, 18, 31, 0.85);
+  border: 3px solid #090D18;
 }
 
 #view-container::-webkit-scrollbar-thumb:hover {
-  background: var(--c-accent);
+  background: #FBBF24;
 }
 
 body.in-workspace {
@@ -2151,6 +2153,9 @@ body.in-workspace {
   gap: 28px;
   width: 100%;
   min-width: 0;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
 }
 
 /* ── Module Header Banner ────────────────────────────────────── */
@@ -3059,6 +3064,8 @@ body.in-workspace {
   color: var(--c-text-3);
   text-decoration: none;
   font-size: 12.5px;
+  cursor: pointer;
+  user-select: none;
   transition: all 140ms ease;
 }
 

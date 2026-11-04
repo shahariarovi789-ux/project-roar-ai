@@ -37,7 +37,7 @@ export function renderLessonView(container, { lessonData, onStartQuiz, onSkipToQ
       <!-- ======================================================== -->
       <!-- PRIMARY LEARNING COLUMN                                   -->
       <!-- ======================================================== -->
-      <main class="edu-learning-main">
+      <div class="edu-learning-main">
 
         <!-- Course / Module Context Banner -->
         <header class="edu-module-header">
@@ -282,7 +282,7 @@ export function renderLessonView(container, { lessonData, onStartQuiz, onSkipToQ
           </button>
         </footer>
 
-      </main>
+      </div>
 
 
       <!-- ======================================================== -->
@@ -478,11 +478,19 @@ export function renderLessonView(container, { lessonData, onStartQuiz, onSkipToQ
   const viewScrollEl = document.getElementById('view-container');
   const scrollToTarget = (targetId) => {
     const targetEl = document.getElementById(targetId);
-    if (!targetEl || !viewScrollEl) return;
-    const targetRect = targetEl.getBoundingClientRect();
-    const containerRect = viewScrollEl.getBoundingClientRect();
-    const relativeTop = targetRect.top - containerRect.top + viewScrollEl.scrollTop - 20;
-    viewScrollEl.scrollTo({ top: relativeTop, behavior: 'smooth' });
+    if (!targetEl) return;
+
+    if (viewScrollEl) {
+      const targetRect = targetEl.getBoundingClientRect();
+      const containerRect = viewScrollEl.getBoundingClientRect();
+      const relativeTop = targetRect.top - containerRect.top + viewScrollEl.scrollTop - 24;
+      viewScrollEl.scrollTo({ top: Math.max(0, relativeTop), behavior: 'smooth' });
+    }
+
+    // Secondary fallback to ensure scroll happens across all browser rendering modes
+    try {
+      targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (err) {}
   };
 
   // Wire Table of Contents links
@@ -492,7 +500,10 @@ export function renderLessonView(container, { lessonData, onStartQuiz, onSkipToQ
       e.preventDefault();
       const href = link.getAttribute('href');
       if (href && href.startsWith('#')) {
-        scrollToTarget(href.substring(1));
+        const targetId = href.substring(1);
+        scrollToTarget(targetId);
+        tocLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
       }
     });
   });
