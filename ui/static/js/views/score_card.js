@@ -1,6 +1,6 @@
 // ui/static/js/views/score_card.js
 /**
- * Project ROAR — Evaluation Score Card.
+ * Project ROAR: Evaluation Score Card.
  * Circular score ring + 5-variable adaptive scoring breakdown.
  */
 
@@ -70,7 +70,7 @@ export function renderScoreCardView(container, { scoreData, onAdvanceNode, onRet
               </div>
               <div>
                 <div style="font-size:17px;font-weight:800;color:var(--c-text);">
-                  ${passed ? 'Topic Mastered! 🎉' : 'Below Passing Threshold'}
+                  ${passed ? 'Topic Mastered' : 'Below Passing Threshold'}
                 </div>
                 <div style="font-family:var(--font-mono);font-size:11px;color:var(--c-text-3);margin-top:2px;">
                   Required: <span style="color:var(--c-text-2);font-weight:600;">${thresh}%</span> · Achieved: <span style="color:${ringColor};font-weight:700;">${score}%</span>
@@ -104,7 +104,7 @@ export function renderScoreCardView(container, { scoreData, onAdvanceNode, onRet
           <div class="metric-card">
             <div class="metric-label" style="${b.hints_used > 0 ? 'color:var(--c-amber);' : ''}">Hint penalty</div>
             <div class="metric-value" style="color:${b.hints_used > 0 ? 'var(--c-amber)' : 'var(--c-text-3)'};">
-              ${b.hint_penalty > 0 ? `−${pct(b.hint_penalty)}%` : '—'}
+              ${b.hint_penalty > 0 ? `−${pct(b.hint_penalty)}%` : '0%'}
             </div>
             <div class="metric-sub">${b.hints_used} hint${b.hints_used !== 1 ? 's' : ''} used</div>
           </div>
@@ -112,7 +112,7 @@ export function renderScoreCardView(container, { scoreData, onAdvanceNode, onRet
           <div class="metric-card">
             <div class="metric-label" style="${b.time_penalty > 0 ? 'color:var(--c-danger);' : ''}">Time penalty</div>
             <div class="metric-value" style="color:${b.time_penalty > 0 ? 'var(--c-danger)' : 'var(--c-text-3)'};">
-              ${b.time_penalty > 0 ? `−${pct(b.time_penalty)}%` : '—'}
+              ${b.time_penalty > 0 ? `−${pct(b.time_penalty)}%` : '0%'}
             </div>
             <div class="metric-sub">${Math.round(b.time_elapsed_seconds)}s / ${Math.round(b.time_budget_seconds)}s</div>
           </div>
@@ -120,7 +120,7 @@ export function renderScoreCardView(container, { scoreData, onAdvanceNode, onRet
           <div class="metric-card">
             <div class="metric-label" style="${b.retry_penalty > 0 ? 'color:var(--c-danger);' : ''}">Streak penalty</div>
             <div class="metric-value" style="color:${b.retry_penalty > 0 ? 'var(--c-danger)' : 'var(--c-text-3)'};">
-              ${b.retry_penalty > 0 ? `−${pct(b.retry_penalty)}%` : '—'}
+              ${b.retry_penalty > 0 ? `−${pct(b.retry_penalty)}%` : '0%'}
             </div>
             <div class="metric-sub">${b.fail_streak} fail streak</div>
           </div>
@@ -140,12 +140,14 @@ export function renderScoreCardView(container, { scoreData, onAdvanceNode, onRet
       <!-- Action -->
       <div class="stagger-item stagger-3" style="display:flex;justify-content:flex-end;gap:12px;">
         ${passed
-          ? `<button id="btn-advance-node" class="btn btn-primary" style="padding:12px 30px;font-size:14px;">
-               Unlock Next Topic →
+          ? `<button id="btn-advance-node" class="btn-posh-primary lg">
+               <span>Unlock Next Topic</span>
+               <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
              </button>`
           : `<div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;width:100%;">
-               <button id="btn-retry-node" class="btn btn-primary" style="padding:12px 30px;font-size:14px;">
-                 Review Notes &amp; Retry Quiz →
+               <button id="btn-retry-node" class="btn-posh-primary lg">
+                 <span>Review Notes &amp; Retry Quiz</span>
+                 <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                </button>
                <span style="font-family:var(--font-mono);font-size:10.5px;color:var(--c-text-3);">
                  Scaffolding hint support will be enabled for this retry

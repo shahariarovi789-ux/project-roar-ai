@@ -101,7 +101,14 @@ def create_app() -> FastAPI:
         async def serve_spa_root():
             index_path = STATIC_DIR / "index.html"
             if index_path.exists():
-                return FileResponse(str(index_path))
+                return FileResponse(
+                    str(index_path),
+                    headers={
+                        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+                        "Pragma": "no-cache",
+                        "Expires": "0"
+                    }
+                )
             return {"message": "Prompt Tutor API running. Static UI loading..."}
 
     return app

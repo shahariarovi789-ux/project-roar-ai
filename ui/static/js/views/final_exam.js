@@ -1,6 +1,6 @@
 // ui/static/js/views/final_exam.js
 /**
- * Project ROAR — Capstone Assessment View.
+ * Project ROAR: Capstone Assessment View.
  * High-contrast, publication-grade examination interface.
  */
 
@@ -38,7 +38,7 @@ export function renderFinalExamView(container, { token, onExamCompleted }) {
       if (!statusData.unlocked) {
         area.innerHTML = `
           <div class="card" style="padding:36px;text-align:center;border-color:rgba(251,146,60,0.3);background:rgba(251,146,60,0.04);display:flex;flex-direction:column;align-items:center;gap:12px;">
-            <div style="font-size:36px;line-height:1;">🔒</div>
+            <div style="width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;color:var(--c-text-3);"><svg style="width:24px;height:24px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg></div>
             <h2 style="font-size:18px;font-weight:700;color:var(--c-text);margin:0;">Final Exam Locked</h2>
             <p style="font-size:12.5px;color:var(--c-text-2);max-width:440px;line-height:1.6;margin:0;">${statusData.message}</p>
             <div style="font-family:var(--font-mono);font-size:12px;font-weight:600;color:var(--c-accent);padding:4px 12px;border:1px solid rgba(232,200,74,0.3);border-radius:var(--r-sm);background:var(--c-accent-dim);margin-top:4px;">
@@ -144,7 +144,7 @@ export function renderFinalExamView(container, { token, onExamCompleted }) {
         <!-- Submit Button -->
         <div style="padding-top:8px;">
           <button type="submit" id="btn-submit-final-exam" class="btn btn-primary" style="width:100%;padding:14px;font-size:13.5px;font-weight:700;justify-content:center;color:#000000 !important;background:var(--c-accent);">
-            Submit Final Examination for Comprehensive Grading 🎓
+            Submit Final Examination for Comprehensive Grading →
           </button>
         </div>
 
@@ -205,7 +205,7 @@ export function renderFinalExamView(container, { token, onExamCompleted }) {
       } catch (err) {
         alert('Exam grading failed: ' + err.message);
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Submit Final Examination 🎓';
+        submitBtn.textContent = 'Submit Final Examination →';
       }
     };
   }
@@ -214,7 +214,11 @@ export function renderFinalExamView(container, { token, onExamCompleted }) {
     const passed = res.passed;
     area.innerHTML = `
       <div class="card" style="padding:32px;text-align:center;border-color:${passed ? 'rgba(74,222,128,0.3)' : 'rgba(248,113,113,0.3)'};background:${passed ? 'rgba(74,222,128,0.04)' : 'rgba(248,113,113,0.04)'};display:flex;flex-direction:column;align-items:center;gap:18px;">
-        <div style="font-size:44px;line-height:1;">${passed ? '🏆' : '❌'}</div>
+        <div style="width:48px;height:48px;border-radius:12px;background:${passed ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)'};display:flex;align-items:center;justify-content:center;color:${passed ? 'var(--c-success)' : 'var(--c-danger)'};">
+          ${passed
+            ? `<svg style="width:28px;height:28px;" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>`
+            : `<svg style="width:28px;height:28px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>`}
+        </div>
         <div>
           <h2 style="font-size:22px;font-weight:700;color:var(--c-text);margin:0 0 6px;">${passed ? 'Graduate Certified!' : 'Examination Incomplete'}</h2>
           <p style="font-size:12.5px;color:var(--c-text-2);max-width:480px;margin:0 auto;line-height:1.6;">${res.feedback}</p>

@@ -1,6 +1,6 @@
 // ui/static/js/views/progress.js
 /**
- * Project ROAR — Curriculum Progress & Knowledge Graph.
+ * Project ROAR: Curriculum Progress & Knowledge Graph.
  * High-contrast, developer-tool aesthetic.
  */
 
@@ -68,17 +68,17 @@ function renderCategorySections(nodes) {
 
       <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));gap:12px;">
         ${catNodes.map(n => {
-          let statusBadge = '<span style="color:var(--c-text-4);">🔒 Locked</span>';
+          let statusBadge = '<span style="color:var(--c-text-4);font-family:var(--font-mono);font-size:10.5px;">Locked</span>';
           let borderStyle = 'border:1px solid rgba(255,255,255,0.08);opacity:0.65;background:var(--c-base);';
 
           if (n.is_passed) {
-            statusBadge = `<span style="color:var(--c-success);font-weight:700;">✅ ${Math.round(n.mastery_score * 100)}%</span>`;
+            statusBadge = `<span style="color:var(--c-success);font-weight:700;font-family:var(--font-mono);font-size:10.5px;">✓ ${Math.round(n.mastery_score * 100)}%</span>`;
             borderStyle = 'border:1px solid rgba(52,211,153,0.35);background:rgba(52,211,153,0.06);box-shadow:0 2px 8px rgba(0,0,0,0.3);';
           } else if (n.is_current) {
-            statusBadge = '<span style="color:var(--c-accent);font-weight:700;">🟡 Active</span>';
+            statusBadge = '<span style="color:var(--c-accent);font-weight:700;font-family:var(--font-mono);font-size:10.5px;">Active</span>';
             borderStyle = 'border:1px solid rgba(251,191,36,0.45);background:rgba(251,191,36,0.12);box-shadow:0 0 16px rgba(251,191,36,0.2);';
           } else if (n.is_unlocked) {
-            statusBadge = '<span style="color:var(--c-text-2);font-weight:600;">⚪ Ready</span>';
+            statusBadge = '<span style="color:var(--c-text-2);font-weight:600;font-family:var(--font-mono);font-size:10.5px;">Ready</span>';
             borderStyle = 'border:1px solid rgba(255,255,255,0.16);background:var(--c-raised);box-shadow:0 2px 8px rgba(0,0,0,0.3);';
           }
 

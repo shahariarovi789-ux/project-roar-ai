@@ -1,6 +1,6 @@
 // ui/static/js/views/onboarding.js
 /**
- * Project ROAR — Onboarding Questionnaire Wizard.
+ * Project ROAR: Onboarding Questionnaire Wizard.
  * High-contrast, developer-tool aesthetic with explicit button styling.
  */
 

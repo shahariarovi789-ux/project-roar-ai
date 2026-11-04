@@ -27,7 +27,7 @@ export function renderSettingsView(container, { token, onModelChanged }) {
           <div class="section-label" style="margin-bottom:10px;">Select Provider</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
             <button type="button" id="tab-ollama" class="option-card selected" style="text-align:left;width:100%;">
-              <span style="font-size:22px;line-height:1;">🦙</span>
+              <div style="width:28px;height:28px;border-radius:6px;background:rgba(245,158,11,0.15);display:flex;align-items:center;justify-content:center;color:var(--c-accent);font-family:var(--font-mono);font-weight:700;font-size:12px;">OL</div>
               <div>
                 <div class="option-title">Ollama (Cloud &amp; Local)</div>
                 <div class="option-desc">Web API (api.ollama.com) or Localhost</div>
@@ -35,7 +35,7 @@ export function renderSettingsView(container, { token, onModelChanged }) {
             </button>
 
             <button type="button" id="tab-openrouter" class="option-card" style="text-align:left;width:100%;">
-              <span style="font-size:22px;line-height:1;">🌐</span>
+              <div style="width:28px;height:28px;border-radius:6px;background:rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;color:#38BDF8;font-family:var(--font-mono);font-weight:700;font-size:12px;">OR</div>
               <div>
                 <div class="option-title">OpenRouter Cloud</div>
                 <div class="option-desc">Llama-3.3, Claude, Gemini, DeepSeek</div>
@@ -54,7 +54,7 @@ export function renderSettingsView(container, { token, onModelChanged }) {
                 <input type="radio" name="ollama_mode" value="cloud" checked style="display:none;">
                 <div class="option-radio"><div class="option-radio-dot"></div></div>
                 <div>
-                  <div class="option-title">☁️ Ollama Cloud API (Web)</div>
+                  <div class="option-title">Ollama Cloud API (Web)</div>
                   <div style="font-family:var(--font-mono);font-size:10.5px;color:var(--c-text-3);margin-top:2px;">https://api.ollama.com</div>
                 </div>
               </label>
@@ -63,7 +63,7 @@ export function renderSettingsView(container, { token, onModelChanged }) {
                 <input type="radio" name="ollama_mode" value="local" style="display:none;">
                 <div class="option-radio"><div class="option-radio-dot"></div></div>
                 <div>
-                  <div class="option-title">🖥️ Ollama Local Daemon</div>
+                  <div class="option-title">Ollama Local Daemon</div>
                   <div style="font-family:var(--font-mono);font-size:10.5px;color:var(--c-text-3);margin-top:2px;">http://localhost:11434</div>
                 </div>
               </label>
@@ -89,7 +89,7 @@ export function renderSettingsView(container, { token, onModelChanged }) {
 
           <!-- Ollama Key Status Badge -->
           <div id="ollama-key-status" style="display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid rgba(74,222,128,0.25);border-radius:var(--r-md);background:rgba(74,222,128,0.08);font-family:var(--font-mono);font-size:11.5px;color:#4ADE80;">
-            <span>🟢</span>
+            <span style="width:7px;height:7px;border-radius:50%;background:#4ADE80;display:inline-block;"></span>
             <span><strong>Valid API Key:</strong> Authenticated with Ollama Cloud API</span>
           </div>
 
@@ -111,7 +111,7 @@ export function renderSettingsView(container, { token, onModelChanged }) {
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
               <label style="font-size:12px;font-weight:600;color:var(--c-text-2);">OpenRouter API Key (Required)</label>
               <button type="button" id="btn-verify-openrouter-key" class="btn btn-ghost" style="font-size:11px;padding:3px 8px;height:auto;gap:4px;">
-                ⚡ Verify Key
+                Verify Key
               </button>
             </div>
             <input type="password" id="input-openrouter-key" placeholder="sk-or-v1-..." class="field-input" style="font-family:var(--font-mono);font-size:12px;">
@@ -140,10 +140,10 @@ export function renderSettingsView(container, { token, onModelChanged }) {
         <!-- Action Footer -->
         <div style="display:flex;align-items:center;gap:10px;padding-top:16px;border-top:1px solid var(--c-border);flex-wrap:wrap;">
           <button type="button" id="btn-test-ping" class="btn btn-ghost" style="padding:10px 18px;font-size:12.5px;">
-            ⚡ Test Inference Ping
+            Test Inference Ping
           </button>
           <button type="button" id="btn-save-provider" class="btn btn-primary" style="flex:1;padding:10px 22px;font-size:13px;font-weight:700;justify-content:center;color:#000000 !important;background:var(--c-accent);">
-            Save &amp; Activate Provider 🚀
+            Save &amp; Activate Provider
           </button>
         </div>
 
@@ -203,7 +203,7 @@ export function renderSettingsView(container, { token, onModelChanged }) {
         ollamaKeyStatus.style.borderColor = 'rgba(74,222,128,0.3)';
         ollamaKeyStatus.style.background = 'rgba(74,222,128,0.08)';
         ollamaKeyStatus.style.color = '#4ADE80';
-        ollamaKeyStatus.innerHTML = `<span>🟢</span><span><strong>${data.message}</strong></span>`;
+        ollamaKeyStatus.innerHTML = `<span style="width:7px;height:7px;border-radius:50%;background:#4ADE80;display:inline-block;"></span><span><strong>${data.message}</strong></span>`;
 
         if (data.models && data.models.length > 0) {
           modelCountBadge.textContent = `${data.models.length} Cloud Models Available`;
@@ -304,7 +304,7 @@ export function renderSettingsView(container, { token, onModelChanged }) {
         openRouterKeyStatus.style.borderColor = 'rgba(74,222,128,0.3)';
         openRouterKeyStatus.style.background = 'rgba(74,222,128,0.08)';
         openRouterKeyStatus.style.color = '#4ADE80';
-        openRouterKeyStatus.innerHTML = `<span>🟢</span><span><strong>${data.message}</strong></span>`;
+        openRouterKeyStatus.innerHTML = `<span style="width:7px;height:7px;border-radius:50%;background:#4ADE80;display:inline-block;"></span><span><strong>${data.message}</strong></span>`;
       } else {
         openRouterKeyStatus.style.borderColor = 'rgba(248,113,113,0.3)';
         openRouterKeyStatus.style.background = 'rgba(248,113,113,0.08)';
@@ -400,12 +400,12 @@ export function renderSettingsView(container, { token, onModelChanged }) {
       });
       const data = await res.json();
       onModelChanged(data);
-      alert(`🎉 Active Provider Configured!\n\nBackend: ${data.active_backend.toUpperCase()}\nModel: ${data.active_model}\nEndpoint: ${data.active_host}`);
+      alert(`Active Provider Configured!\n\nBackend: ${data.active_backend.toUpperCase()}\nModel: ${data.active_model}\nEndpoint: ${data.active_host}`);
     } catch (err) {
       alert('Failed to save provider: ' + err.message);
     } finally {
       btnSave.disabled = false;
-      btnSave.innerHTML = 'Save & Activate Provider 🚀';
+      btnSave.innerHTML = 'Save & Activate Provider';
     }
   };
 }
