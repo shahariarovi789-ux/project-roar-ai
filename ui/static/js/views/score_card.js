@@ -79,7 +79,7 @@ export function renderScoreCardView(container, { scoreData, onAdvanceNode, onRet
             </div>
 
             <!-- Rationale -->
-            <div style="padding:14px 16px;background:var(--c-raised);border:1px solid rgba(255,255,255,0.10);border-radius:var(--r-md);">
+            <div style="padding:14px 16px;background:var(--c-raised);border:1px solid var(--c-border-md);border-radius:var(--r-md);">
               <div class="section-label" style="margin-bottom:6px;color:var(--c-accent);">Evaluator feedback</div>
               <p style="font-size:13.5px;color:var(--c-text-2);line-height:1.65;margin:0;">${b.rationale}</p>
             </div>
@@ -96,7 +96,7 @@ export function renderScoreCardView(container, { scoreData, onAdvanceNode, onRet
           ${barRow('Structure & rules', pct(b.rule_score), pct(b.rule_score) >= 60 ? '#34D399' : '#F87171')}
         </div>
 
-        <div style="height:1px;background:rgba(255,255,255,0.10);margin:18px 0;"></div>
+        <div style="height:1px;background:var(--c-border);margin:18px 0;"></div>
 
         <!-- Penalty grid -->
         <div class="section-label" style="margin-bottom:14px;">Penalties applied</div>
@@ -127,7 +127,7 @@ export function renderScoreCardView(container, { scoreData, onAdvanceNode, onRet
         </div>
 
         <!-- Final score row -->
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding-top:18px;border-top:1px solid rgba(255,255,255,0.10);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding-top:18px;border-top:1px solid var(--c-border);">
           <div style="font-family:var(--font-mono);font-size:11px;color:var(--c-text-3);">
             (0.5 × semantic) + (0.5 × structure) − penalties
           </div>

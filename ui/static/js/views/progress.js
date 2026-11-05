@@ -14,7 +14,7 @@ export function renderProgressView(container, { progressData, onSelectNode }) {
           <div class="section-label" style="color:var(--c-accent);margin-bottom:6px;">Curriculum Knowledge Graph</div>
           <h1 style="font-size:22px;font-weight:800;color:var(--c-text);letter-spacing:-0.025em;margin:0 0 8px;">Prompt Engineering Mastery Map</h1>
           <p style="font-size:13px;color:var(--c-text-2);margin:0;">
-            Completed <strong style="color:#FFFFFF;">${progressData.completed_nodes_count}</strong> of <strong style="color:#FFFFFF;">${progressData.total_nodes}</strong> weighted curriculum nodes.
+            Completed <strong style="color:var(--c-text);">${progressData.completed_nodes_count}</strong> of <strong style="color:var(--c-text);">${progressData.total_nodes}</strong> weighted curriculum nodes.
           </p>
         </div>
 
@@ -27,7 +27,7 @@ export function renderProgressView(container, { progressData, onSelectNode }) {
               Completion Rate
             </div>
           </div>
-          <div style="width:110px;height:8px;border-radius:4px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);overflow:hidden;">
+          <div style="width:110px;height:8px;border-radius:4px;background:var(--c-raised);border:1px solid var(--c-border);overflow:hidden;">
             <div style="background:linear-gradient(90deg, #FDE047, #F59E0B);height:100%;width:${progressData.overall_progress_percentage}%;transition:width 0.6s ease;"></div>
           </div>
         </div>
@@ -59,7 +59,7 @@ function renderCategorySections(nodes) {
 
   return Object.entries(categories).map(([catName, catNodes]) => `
     <div class="card" style="padding:24px 26px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.10);">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--c-border);">
         <h2 style="font-size:13.5px;font-weight:800;color:var(--c-text);text-transform:uppercase;letter-spacing:0.06em;margin:0;">${catName}</h2>
         <span style="font-family:var(--font-mono);font-size:11.5px;font-weight:600;color:var(--c-text-3);">
           ${catNodes.filter(n => n.is_passed).length}/${catNodes.length} passed
@@ -69,7 +69,7 @@ function renderCategorySections(nodes) {
       <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));gap:12px;">
         ${catNodes.map(n => {
           let statusBadge = '<span style="color:var(--c-text-4);font-family:var(--font-mono);font-size:10.5px;">Locked</span>';
-          let borderStyle = 'border:1px solid rgba(255,255,255,0.08);opacity:0.65;background:var(--c-base);';
+          let borderStyle = 'border:1px solid var(--c-border);opacity:0.65;background:var(--c-base);';
 
           if (n.is_passed) {
             statusBadge = `<span style="color:var(--c-success);font-weight:700;font-family:var(--font-mono);font-size:10.5px;">✓ ${Math.round(n.mastery_score * 100)}%</span>`;
@@ -79,7 +79,7 @@ function renderCategorySections(nodes) {
             borderStyle = 'border:1px solid rgba(251,191,36,0.45);background:rgba(251,191,36,0.12);box-shadow:0 0 16px rgba(251,191,36,0.2);';
           } else if (n.is_unlocked) {
             statusBadge = '<span style="color:var(--c-text-2);font-weight:600;font-family:var(--font-mono);font-size:10.5px;">Ready</span>';
-            borderStyle = 'border:1px solid rgba(255,255,255,0.16);background:var(--c-raised);box-shadow:0 2px 8px rgba(0,0,0,0.3);';
+            borderStyle = 'border:1px solid var(--c-border-md);background:var(--c-raised);box-shadow:0 2px 8px rgba(0,0,0,0.3);';
           }
 
           const isClickable = n.is_unlocked || n.is_passed;

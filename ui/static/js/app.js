@@ -5,17 +5,40 @@
  * real-time agent telemetry, and session state.
  */
 
-import { showToast } from './components/toast.js?v=15.0';
-import { renderSidebarCurriculum } from './components/sidebar.js?v=15.0';
-import { renderHomeView } from './views/home.js?v=15.0';
-import { renderLoginView } from './views/login.js?v=15.0';
-import { renderOnboardingView } from './views/onboarding.js?v=15.0';
-import { renderLessonView } from './views/lesson.js?v=15.0';
-import { renderQuizView } from './views/quiz.js?v=15.0';
-import { renderScoreCardView } from './views/score_card.js?v=15.0';
-import { renderProgressView } from './views/progress.js?v=15.0';
-import { renderSettingsView } from './views/settings.js?v=15.0';
-import { renderFinalExamView } from './views/final_exam.js?v=15.0';
+import { showToast } from './components/toast.js?v=16.0';
+import { renderSidebarCurriculum } from './components/sidebar.js?v=16.0';
+import { renderHomeView } from './views/home.js?v=16.0';
+import { renderLoginView } from './views/login.js?v=16.0';
+import { renderOnboardingView } from './views/onboarding.js?v=16.0';
+import { renderLessonView } from './views/lesson.js?v=16.0';
+import { renderQuizView } from './views/quiz.js?v=16.0';
+import { renderScoreCardView } from './views/score_card.js?v=16.0';
+import { renderProgressView } from './views/progress.js?v=16.0';
+import { renderSettingsView } from './views/settings.js?v=16.0';
+import { renderFinalExamView } from './views/final_exam.js?v=16.0';
+
+// ── Theme Controller: Dark Mode / Light Mode ───────────────────
+export function getSavedTheme() {
+  return localStorage.getItem('roar_theme') || 'dark';
+}
+
+export function applyTheme(theme) {
+  const activeTheme = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', activeTheme);
+  localStorage.setItem('roar_theme', activeTheme);
+  return activeTheme;
+}
+
+export function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || getSavedTheme();
+  const next = current === 'light' ? 'dark' : 'light';
+  applyTheme(next);
+  showToast(next === 'light' ? 'Switched to Light Mode (White & Gold)' : 'Switched to Dark Mode (Cosmic Obsidian)', 'info');
+  return next;
+}
+
+// Immediate initial sync to eliminate flash
+applyTheme(getSavedTheme());
 
 class AppState {
   constructor() {
@@ -203,6 +226,15 @@ export function toggleMobileSidebar() {
 }
 
 function setupGlobalNavEvents() {
+  // Global Theme Toggle Delegator
+  document.addEventListener('click', (e) => {
+    const toggleBtn = e.target.closest('.theme-toggle-btn');
+    if (toggleBtn) {
+      e.preventDefault();
+      toggleTheme();
+    }
+  });
+
   // Mobile drawer controls
   const btnSidebarToggleMobile = document.getElementById('btn-sidebar-toggle-mobile');
   if (btnSidebarToggleMobile) {
@@ -655,7 +687,7 @@ function updateHeader(title, tier, phase, category = '') {
 
   if (nodeTitle) {
     nodeTitle.innerHTML = category
-      ? `<span style="color:var(--c-text-3);">${category}</span> <span style="color:var(--c-border-hi);margin:0 4px;">/</span> <span style="color:#FFFFFF;">${title}</span>`
+      ? `<span style="color:var(--c-text-3);">${category}</span> <span style="color:var(--c-border-hi);margin:0 4px;">/</span> <span style="color:var(--c-text);font-weight:600;">${title}</span>`
       : title;
   }
   if (tierBadge) tierBadge.textContent = `Tier ${tier}`;

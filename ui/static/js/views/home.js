@@ -14,7 +14,8 @@ export function renderHomeView(container, { isAuthenticated, username, onLaunchA
       <nav class="hp-nav">
         <div class="hp-nav-inner">
           <div class="hp-brand" id="hp-brand-link">
-            <img src="/static/img/roar-dark.svg" alt="Project R.O.A.R." class="hp-nav-logo">
+            <img src="/static/img/roar-dark.svg" alt="Project R.O.A.R." class="hp-nav-logo theme-dark-logo">
+            <img src="/static/img/roar-light.svg" alt="Project R.O.A.R." class="hp-nav-logo theme-light-logo">
           </div>
 
           <div class="hp-nav-links">
@@ -27,6 +28,15 @@ export function renderHomeView(container, { isAuthenticated, username, onLaunchA
           </div>
 
           <div class="hp-nav-actions">
+            <button id="hp-theme-toggle" class="hp-btn hp-btn-ghost theme-toggle-btn" title="Toggle Light / Dark Mode" aria-label="Toggle Theme">
+              <span class="theme-toggle-dark-icon" title="Switch to Light Mode">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:15px;height:15px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+              </span>
+              <span class="theme-toggle-light-icon" title="Switch to Dark Mode">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:15px;height:15px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+              </span>
+              <span class="theme-label-txt" style="font-size:12px;font-weight:600;">Theme</span>
+            </button>
             ${isAuthenticated ? `
               <button id="hp-btn-open-workspace" class="hp-btn hp-btn-primary">
                 Open Workspace (${username}) →
@@ -593,7 +603,8 @@ export function renderHomeView(container, { isAuthenticated, username, onLaunchA
           <div class="hp-footer-inner">
             <div class="hp-footer-left">
               <div class="hp-footer-brand">
-                <img src="/static/img/roar-dark.svg" alt="Project R.O.A.R." class="hp-footer-logo">
+                <img src="/static/img/roar-dark.svg" alt="Project R.O.A.R." class="hp-footer-logo theme-dark-logo">
+                <img src="/static/img/roar-light.svg" alt="Project R.O.A.R." class="hp-footer-logo theme-light-logo">
               </div>
               <p class="hp-footer-text">
                 Responsive Orchestrated Adaptive Remediation. Research-grade Intelligent Tutoring System providing scaffolded mastery in prompt engineering and computational architectures.
