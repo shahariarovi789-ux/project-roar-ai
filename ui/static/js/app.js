@@ -5,17 +5,17 @@
  * real-time agent telemetry, and session state.
  */
 
-import { showToast } from './components/toast.js?v=14.0';
-import { renderSidebarCurriculum } from './components/sidebar.js?v=14.0';
-import { renderHomeView } from './views/home.js?v=14.0';
-import { renderLoginView } from './views/login.js?v=14.0';
-import { renderOnboardingView } from './views/onboarding.js?v=14.0';
-import { renderLessonView } from './views/lesson.js?v=14.0';
-import { renderQuizView } from './views/quiz.js?v=14.0';
-import { renderScoreCardView } from './views/score_card.js?v=14.0';
-import { renderProgressView } from './views/progress.js?v=14.0';
-import { renderSettingsView } from './views/settings.js?v=14.0';
-import { renderFinalExamView } from './views/final_exam.js?v=14.0';
+import { showToast } from './components/toast.js?v=15.0';
+import { renderSidebarCurriculum } from './components/sidebar.js?v=15.0';
+import { renderHomeView } from './views/home.js?v=15.0';
+import { renderLoginView } from './views/login.js?v=15.0';
+import { renderOnboardingView } from './views/onboarding.js?v=15.0';
+import { renderLessonView } from './views/lesson.js?v=15.0';
+import { renderQuizView } from './views/quiz.js?v=15.0';
+import { renderScoreCardView } from './views/score_card.js?v=15.0';
+import { renderProgressView } from './views/progress.js?v=15.0';
+import { renderSettingsView } from './views/settings.js?v=15.0';
+import { renderFinalExamView } from './views/final_exam.js?v=15.0';
 
 class AppState {
   constructor() {
@@ -608,6 +608,7 @@ async function startQuizFlow(isSkip = false, nodeId = null, isRegen = false) {
           body: {
             node_id: targetId,
             student_answers: answersMap,
+            answers: answersMap,
             time_elapsed_seconds: meta.timeElapsed || 45.0,
             hints_used: meta.hintsUsed || 0
           }

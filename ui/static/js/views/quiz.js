@@ -306,7 +306,29 @@ export function renderQuizView(container, { quizData, onSubmitAnswer, onRequestH
     const fd = new FormData(e.target);
     const answersMap = {};
     questions.forEach((q, idx) => {
-      answersMap[q.id || `q${idx + 1}`] = (fd.get(`q_${q.id || idx}`) || '').trim();
+      const qKey = q.id || `q${idx + 1}`;
+      const nameAttr = `q_${q.id || idx}`;
+
+      let val = '';
+      const checkedRadio = quizForm.querySelector(`input[name="${nameAttr}"]:checked`) ||
+                           quizForm.querySelector(`input[name="q_${idx}"]:checked`) ||
+                           quizForm.querySelector(`input[name="q_${qKey}"]:checked`);
+      if (checkedRadio) {
+        val = checkedRadio.value;
+      } else {
+        const textarea = quizForm.querySelector(`textarea[name="${nameAttr}"]`) ||
+                         quizForm.querySelector(`textarea[name="q_${idx}"]`) ||
+                         quizForm.querySelector(`textarea[name="q_${qKey}"]`);
+        if (textarea) {
+          val = textarea.value;
+        } else {
+          val = fd.get(nameAttr) || '';
+        }
+      }
+      val = (val || '').trim();
+      answersMap[qKey] = val;
+      answersMap[`q${idx + 1}`] = val;
+      if (q.id) answersMap[q.id] = val;
     });
     try {
       await onSubmitAnswer(answersMap, { timeElapsed: secondsElapsed, hintsUsed });

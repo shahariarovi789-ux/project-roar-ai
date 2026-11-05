@@ -28,8 +28,14 @@ async def submit_quiz_answer(
     user_id: str = Depends(get_current_user_id)
 ):
     """Evaluates student's multi-question answer using the 5-variable adaptive scoring formula."""
-    payload = req.answers if req.answers else req.answer
-    return await TutorOrchestrator.evaluate_quiz_submission(user_id, payload)
+    payload = req.student_answers if req.student_answers else (req.answers if req.answers else req.answer)
+    return await TutorOrchestrator.evaluate_quiz_submission(
+        user_id,
+        payload,
+        node_id=req.node_id,
+        time_elapsed_seconds=req.time_elapsed_seconds,
+        hints_used=req.hints_used
+    )
 
 
 @router.post("/hint")

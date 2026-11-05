@@ -107,7 +107,13 @@ class TutorOrchestrator:
 
 
     @staticmethod
-    async def evaluate_quiz_submission(user_id: str, answers: Any) -> Dict[str, Any]:
+    async def evaluate_quiz_submission(
+        user_id: str,
+        answers: Any,
+        node_id: Optional[str] = None,
+        time_elapsed_seconds: Optional[float] = None,
+        hints_used: Optional[int] = None
+    ) -> Dict[str, Any]:
         """
         Evaluates student submission for the 3 questions.
         Supports both dict: {"q1": ans1, "q2": ans2, "q3": ans3} or single string.
@@ -115,11 +121,12 @@ class TutorOrchestrator:
         import time
         profile = await get_learner_profile(user_id) or LearnerProfile(user_id=user_id)
         state = await get_tutor_state(user_id) or TutorState(user_id=user_id)
-        node = curriculum_graph.get_node_by_id(state.current_node_id) or curriculum_graph.nodes[0]
+        target_node_id = node_id or state.current_node_id
+        node = curriculum_graph.get_node_by_id(target_node_id) or curriculum_graph.nodes[0]
 
         start_ts = state.quiz_start_timestamp or time.time()
-        elapsed_seconds = max(1.0, time.time() - start_ts)
-        hints_used = state.hints_requested
+        elapsed_seconds = max(1.0, time.time() - start_ts) if time_elapsed_seconds is None else max(1.0, float(time_elapsed_seconds))
+        effective_hints_used = state.hints_requested if hints_used is None else int(hints_used)
         fail_streak = profile.get_fail_streak(node.id)
 
         questions = state.current_quiz_questions
@@ -134,18 +141,21 @@ class TutorOrchestrator:
         # Normalize answers to dict
         answers_dict = {}
         if isinstance(answers, dict):
-            answers_dict = answers
-        else:
-            # If string submitted, map to all questions
+            for k, v in answers.items():
+                answers_dict[str(k)] = str(v) if v is not None else ""
+        elif answers is not None and str(answers).strip() not in ("None", "null"):
             for q in questions:
                 answers_dict[q.get("id", "q1")] = str(answers)
+        else:
+            for q in questions:
+                answers_dict[q.get("id", "q1")] = ""
 
         # Run multi-question evaluator agent
         breakdown = await evaluator_agent.evaluate_submission(
             node=node,
             questions=questions,
             student_answers=answers_dict,
-            hints_used=hints_used,
+            hints_used=effective_hints_used,
             elapsed_seconds=elapsed_seconds,
             fail_streak=fail_streak
         )

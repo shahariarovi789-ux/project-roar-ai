@@ -39,20 +39,25 @@ class QuizAgent:
 
         # --- TIER 1: FOUNDATIONAL / SCENARIO-DRIVEN (Weight 1.0 - 1.5) ---
         if tier == 1 or weight <= 1.5:
-            prompt = f"""You are an expert AI Prompt Engineering Educator.
-Create a FRESH, ENGAGING, SCENARIO-BASED 3-question quiz for the foundational topic: '{node.title}'.
+            prompt = f"""You are a supportive, expert AI Prompt Engineering Educator.
+Create a CLEAR, ENGAGING, PRACTICAL 3-question quiz for beginners learning the foundational topic: '{node.title}'.
 Topic Description: {node.description}.
 Key Concepts: {key_concepts}.
 Difficulty: Tier 1 (Foundational / Beginner, Weight {weight}).
 
-STRICT RULES:
-1. Question 1 MUST be a dynamic, realistic scenario Multiple Choice Question (MCQ).
-   - Example style: Present a practical situation (e.g. an engineer asking an AI to do task X) and ask which prompt strategy or core concept applies.
-   - Do NOT use generic template questions like "What is the primary purpose of...".
-   - Provide 4 distinct, plausible options (A, B, C, D) with 1 clearly correct answer.
-2. Question 2 MUST be an applied Prompt Writing challenge where the student writes a structured prompt.
-3. Question 3 MUST be a Prompt Improvement/Diagnosis challenge where the student fixes a flawed or vague prompt.
-4. CRITICAL: NEVER include the word 'Hint', hints, tips, or clues inside the question text. The UI provides a dedicated interactive Hint button for that.
+PEDAGOGICAL CALIBRATION DIRECTIVES FOR BEGINNERS (TIER 1):
+1. Keep language accessible, concrete, and encouraging. Avoid overly dense academic jargon or trick questions.
+2. Question 1 (MCQ):
+   - Present a clear, relatable real-world situation (2-3 sentences) where someone wants an AI to assist them.
+   - Ask which foundational concept or prompt adjustment best solves the issue.
+   - Provide 4 distinct options (A, B, C, D). The correct option MUST be unambiguous and directly align with the core mental model of {node.title}. The distractors should be plausible beginner misconceptions, not confusing edge cases.
+3. Question 2 (Prompt Writing):
+   - Provide a specific, beginner-friendly task (e.g. asking the student to write a 1-3 sentence prompt setting a persona, goal, and output constraint for a simple scenario).
+   - Make the expectations simple and transparent so the student knows exactly what to write.
+4. Question 3 (Prompt Diagnosis & Repair):
+   - Present a short, obviously flawed or vague prompt (e.g. 'Explain math' or 'Help me write a summary').
+   - Ask the student to identify why it fails and write a clearer, improved 1-2 sentence prompt applying the rules of {node.title}.
+5. CRITICAL: NEVER include the word 'Hint', hints, tips, or clues inside the question text. The UI provides a dedicated interactive Hint button for that.
 
 ### REQUIRED JSON OUTPUT FORMAT:
 Return strictly valid JSON only:
@@ -60,9 +65,9 @@ Return strictly valid JSON only:
   "questions": [
     {{
       "id": "q1",
-      "title": "Question 1: Scenario & Core Mechanics",
+      "title": "Question 1: Scenario & Core Concept",
       "type": "mcq",
-      "question": "<Write a vivid scenario question testing {node.title}>",
+      "question": "<Relatable scenario question testing understanding of {node.title}>",
       "options": [
         "A) <Option A>",
         "B) <Option B>",
@@ -75,13 +80,13 @@ Return strictly valid JSON only:
       "id": "q2",
       "title": "Question 2: Applied Prompt Construction",
       "type": "writing",
-      "question": "<Write a specific prompt writing instruction applying {node.title}>"
+      "question": "<Clear, beginner-friendly prompt writing instruction applying {node.title}>"
     }},
     {{
       "id": "q3",
       "title": "Question 3: Prompt Diagnosis & Refinement",
       "type": "writing",
-      "question": "<Present a realistic unoptimized prompt and ask the student to diagnose and rewrite it using {node.title}>"
+      "question": "<Flawed, vague prompt example with instruction to identify flaw and write an improved version applying {node.title}>"
     }}
   ]
 }}

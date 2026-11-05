@@ -161,6 +161,10 @@ class OnboardingAnswerRequest(BaseModel):
 class QuizSubmitRequest(BaseModel):
     answer: Optional[str] = None
     answers: Optional[Dict[str, str]] = None
+    student_answers: Optional[Dict[str, str]] = None
+    node_id: Optional[str] = None
+    time_elapsed_seconds: Optional[float] = None
+    hints_used: Optional[int] = None
 
 
 class QuizHintRequest(BaseModel):
