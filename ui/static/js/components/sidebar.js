@@ -96,7 +96,13 @@ export function renderSidebarCurriculum(nodes, activeNodeId, onSelectNode) {
       `;
 
       if (isUnlocked || isPassed) {
-        btn.onclick = () => onSelectNode(node.id);
+        btn.onclick = () => {
+          const sb = document.getElementById('sidebar-container');
+          const bd = document.getElementById('sidebar-backdrop');
+          if (sb) sb.classList.remove('mobile-open');
+          if (bd) bd.style.display = 'none';
+          onSelectNode(node.id);
+        };
       } else {
         btn.disabled = true;
       }

@@ -5,17 +5,17 @@
  * real-time agent telemetry, and session state.
  */
 
-import { showToast } from './components/toast.js?v=13.0';
-import { renderSidebarCurriculum } from './components/sidebar.js?v=13.0';
-import { renderHomeView } from './views/home.js?v=13.0';
-import { renderLoginView } from './views/login.js?v=13.0';
-import { renderOnboardingView } from './views/onboarding.js?v=13.0';
-import { renderLessonView } from './views/lesson.js?v=13.0';
-import { renderQuizView } from './views/quiz.js?v=13.0';
-import { renderScoreCardView } from './views/score_card.js?v=13.0';
-import { renderProgressView } from './views/progress.js?v=13.0';
-import { renderSettingsView } from './views/settings.js?v=13.0';
-import { renderFinalExamView } from './views/final_exam.js?v=13.0';
+import { showToast } from './components/toast.js?v=14.0';
+import { renderSidebarCurriculum } from './components/sidebar.js?v=14.0';
+import { renderHomeView } from './views/home.js?v=14.0';
+import { renderLoginView } from './views/login.js?v=14.0';
+import { renderOnboardingView } from './views/onboarding.js?v=14.0';
+import { renderLessonView } from './views/lesson.js?v=14.0';
+import { renderQuizView } from './views/quiz.js?v=14.0';
+import { renderScoreCardView } from './views/score_card.js?v=14.0';
+import { renderProgressView } from './views/progress.js?v=14.0';
+import { renderSettingsView } from './views/settings.js?v=14.0';
+import { renderFinalExamView } from './views/final_exam.js?v=14.0';
 
 class AppState {
   constructor() {
@@ -179,11 +179,59 @@ function openSettingsView() {
   });
 }
 
+export function closeMobileSidebar() {
+  const sb = document.getElementById('sidebar-container');
+  const bd = document.getElementById('sidebar-backdrop');
+  if (sb) sb.classList.remove('mobile-open');
+  if (bd) bd.style.display = 'none';
+}
+
+export function openMobileSidebar() {
+  const sb = document.getElementById('sidebar-container');
+  const bd = document.getElementById('sidebar-backdrop');
+  if (sb) sb.classList.add('mobile-open');
+  if (bd) bd.style.display = 'block';
+}
+
+export function toggleMobileSidebar() {
+  const sb = document.getElementById('sidebar-container');
+  if (sb && sb.classList.contains('mobile-open')) {
+    closeMobileSidebar();
+  } else {
+    openMobileSidebar();
+  }
+}
+
 function setupGlobalNavEvents() {
+  // Mobile drawer controls
+  const btnSidebarToggleMobile = document.getElementById('btn-sidebar-toggle-mobile');
+  if (btnSidebarToggleMobile) {
+    btnSidebarToggleMobile.onclick = (e) => {
+      e.stopPropagation();
+      toggleMobileSidebar();
+    };
+  }
+
+  const btnSidebarCloseMobile = document.getElementById('btn-sidebar-close-mobile');
+  if (btnSidebarCloseMobile) {
+    btnSidebarCloseMobile.onclick = (e) => {
+      e.stopPropagation();
+      closeMobileSidebar();
+    };
+  }
+
+  const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+  if (sidebarBackdrop) {
+    sidebarBackdrop.onclick = () => {
+      closeMobileSidebar();
+    };
+  }
+
   // Homepage toggles
   const btnSidebarHome = document.getElementById('btn-sidebar-home');
   if (btnSidebarHome) {
     btnSidebarHome.onclick = () => {
+      closeMobileSidebar();
       state.currentView = 'home';
       renderApp();
     };
@@ -192,18 +240,21 @@ function setupGlobalNavEvents() {
   const btnHeaderHome = document.getElementById('btn-header-home');
   if (btnHeaderHome) {
     btnHeaderHome.onclick = () => {
+      closeMobileSidebar();
       state.currentView = 'home';
       renderApp();
     };
   }
 
   document.getElementById('nav-btn-learn').onclick = () => {
+    closeMobileSidebar();
     state.currentView = 'study';
     updateNavButtons();
     loadStudyNode(state.selectedNodeId || state.session?.current_node?.id);
   };
 
   document.getElementById('nav-btn-progress').onclick = async () => {
+    closeMobileSidebar();
     state.currentView = 'progress';
     updateNavButtons();
     try {
@@ -212,6 +263,7 @@ function setupGlobalNavEvents() {
         progressData,
         onSelectNode: async (nodeId) => {
           showToast(`Opening ${nodeId}…`, 'info');
+          closeMobileSidebar();
           state.currentView = 'study';
           state.selectedNodeId = nodeId;
           updateNavButtons();
@@ -224,6 +276,7 @@ function setupGlobalNavEvents() {
   };
 
   document.getElementById('nav-btn-exam').onclick = () => {
+    closeMobileSidebar();
     state.currentView = 'exam';
     updateNavButtons();
     renderFinalExamView(viewContainer, {
@@ -234,15 +287,24 @@ function setupGlobalNavEvents() {
     });
   };
 
-  document.getElementById('btn-settings-toggle').onclick = openSettingsView;
+  document.getElementById('btn-settings-toggle').onclick = () => {
+    closeMobileSidebar();
+    openSettingsView();
+  };
 
   const headerProviderBtn = document.getElementById('btn-header-provider-badge');
   if (headerProviderBtn) headerProviderBtn.onclick = openSettingsView;
 
   const sidebarModelContainer = document.getElementById('sidebar-model-container');
-  if (sidebarModelContainer) sidebarModelContainer.onclick = openSettingsView;
+  if (sidebarModelContainer) {
+    sidebarModelContainer.onclick = () => {
+      closeMobileSidebar();
+      openSettingsView();
+    };
+  }
 
   document.getElementById('btn-logout').onclick = () => {
+    closeMobileSidebar();
     state.clearAuth();
     showToast('Signed out of workspace.', 'info');
     state.currentView = 'home';

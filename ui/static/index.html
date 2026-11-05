@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="stylesheet" href="/static/css/app.css?v=13.0">
+  <link rel="stylesheet" href="/static/css/app.css?v=14.0">
 </head>
 <body>
 
@@ -43,6 +43,9 @@
           </button>
           <button id="btn-settings-toggle" class="sb-icon-btn" title="Model &amp; System Settings">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          </button>
+          <button id="btn-sidebar-close-mobile" class="sb-icon-btn mobile-close-btn" title="Close Syllabus Drawer">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:16px;height:16px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
       </div>
@@ -83,6 +86,9 @@
         </div>
       </div>
     </aside>
+    
+    <!-- Mobile Sidebar Backdrop Overlay -->
+    <div id="sidebar-backdrop" class="sidebar-backdrop" style="display:none;"></div>
 
     <!-- Main Content Area -->
     <main id="workspace-main">
@@ -90,11 +96,15 @@
       <!-- App Header -->
       <header id="app-header">
         <div class="hdr-left">
+          <button id="btn-sidebar-toggle-mobile" class="hdr-btn mobile-menu-btn" title="Curriculum Outline" aria-label="Toggle Syllabus">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:15px;height:15px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <span>Topics</span>
+          </button>
           <button id="btn-header-home" class="hdr-btn" title="Return to Overview">
             <svg viewBox="0 0 16 16" fill="currentColor" style="width:13px;height:13px;margin-right:4px;">
               <path fill-rule="evenodd" d="M15 8a.75.75 0 0 1-.75.75H4.06l3.72 3.72a.75.75 0 1 1-1.06 1.06l-5-5a.75.75 0 0 1 0-1.06l5-5a.75.75 0 0 1 1.06 1.06L4.06 7.25h10.19A.75.75 0 0 1 15 8z"/>
             </svg>
-            Overview
+            <span class="hdr-btn-text">Overview</span>
           </button>
           <span class="hdr-divider">/</span>
           <span class="hdr-breadcrumb" id="header-node-title">Node Title</span>
@@ -133,6 +143,6 @@
 
   </div>
 
-  <script type="module" src="/static/js/app.js?v=13.0"></script>
+  <script type="module" src="/static/js/app.js?v=14.0"></script>
 </body>
 </html>
