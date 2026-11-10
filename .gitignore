@@ -34,5 +34,14 @@ PROJECT_ROAR_CONTEXT.md
 *.zip
 scripts/build_defense_presentation.py
 
-# Local Paper Drafts
+# Local Academic Papers, Drafts & Reports (Strictly Excluded from Git)
 ieee_paper/
+Project_ROAR_Complete_Report.pdf
+Project_ROAR_Executive_Overview.pdf
+Project_ROAR_Executive_Overview.tex
+evaluation/Project_ROAR_Evaluation_Report.pdf
+*.aux
+*.bbl
+*.blg
+*.out
+*.synctex.gz
