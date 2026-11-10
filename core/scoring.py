@@ -42,7 +42,7 @@ class ScoringEngine:
     EPSILON = 0.01    # Penalty per consecutive failure streak (capped at 0.04)
 
     @classmethod
-    def extract_float_from_llm(cls, text: str, default: float = 0.80) -> float:
+    def extract_float_from_llm(cls, text: str, default: float = 0.10) -> float:
         """
         Robustly extracts a float score (0.0 to 1.0) from LLM output.
         Strips DeepSeek-R1 <think> ... </think> tokens, parses JSON blocks if present,

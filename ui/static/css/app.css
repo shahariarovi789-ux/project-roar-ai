@@ -1644,7 +1644,7 @@ body.in-workspace {
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  background: rgba(13, 18, 31, 0.95);
+  background: var(--c-surface);
 }
 
 .sb-brand-left {
@@ -4761,6 +4761,7 @@ body.in-workspace {
 }
 
 [data-theme="light"] .sb-brand {
+  background: #FFFFFF !important;
   border-bottom: 1px solid #E2E8F0;
 }
 
@@ -4774,18 +4775,19 @@ body.in-workspace {
 }
 
 [data-theme="light"] .sb-icon-btn {
-  background: #FFFFFF;
+  background: #F8FAFC;
   border: 1px solid #E2E8F0;
   color: #475569;
 }
 
 [data-theme="light"] .sb-icon-btn:hover {
-  background: #F1F5F9;
+  background: #E2E8F0;
   color: #0F172A;
   border-color: #CBD5E1;
 }
 
 [data-theme="light"] .sb-tabs {
+  background: #F8FAFC;
   border-bottom: 1px solid #E2E8F0;
 }
 
